@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface CITaskTableViewController : NSObject
+@interface CITaskTableViewController : UITableViewController
 
 @end

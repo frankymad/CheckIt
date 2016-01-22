@@ -10,4 +10,8 @@
 
 @interface CITask : NSObject
 
+@property NSString *title;
+@property NSString *description;
+@property BOOL completed;
+
 @end
