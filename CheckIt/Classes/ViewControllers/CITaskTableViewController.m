@@ -59,20 +59,19 @@
         [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.tasks.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [alert dismissViewControllerAnimated:YES completion:nil];    }];
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
     [alert addAction:ok];
     [alert addAction:cancel];
-    [alert addTextFieldWithConfigurationHandler:^(UITextField *taskNameField) {
-        taskNameField.placeholder = @"Task name";
-    }];
-    [alert addTextFieldWithConfigurationHandler:^(UITextField *taskDescriptionField) {
-        taskDescriptionField.placeholder = @"Description";
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *taskNameField) { taskNameField.placeholder = @"Task name"; }];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *taskDescriptionField) { taskDescriptionField.placeholder = @"Description";
     }];
     [self presentViewController:alert animated:YES completion:nil];
 }
 
 
-#pragma mark - Table datasource
+#pragma mark - table datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -89,13 +88,11 @@
     NSDictionary *tasks = self.tasks[indexPath.row];
     cell.textLabel.text = tasks[@"task"];
     cell.detailTextLabel.text = tasks[@"description"];
-    
     if ([tasks[@"completed"] boolValue]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         } else {
             cell.accessoryType = UITableViewCellAccessoryNone;
     }
-    
     return cell;
 }
 
@@ -110,6 +107,8 @@
     cell.accessoryType = ([task[@"completed"] boolValue]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+#pragma mark - delete task
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleDelete;
