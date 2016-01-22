@@ -39,6 +39,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="AOW-cr-LTd" id="POl-WJ-aaD"/>
                             <outlet property="delegate" destination="AOW-cr-LTd" id="Vy2-eh-LOE"/>
