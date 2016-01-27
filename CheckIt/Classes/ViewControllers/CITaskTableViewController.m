@@ -52,8 +52,8 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add new task" message:@"Write new task name and description" preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        UITextField *taskNameField = [alert.textFields objectAtIndex:0];
-        UITextField *taskDescriptionField = [alert.textFields objectAtIndex:1];
+        UITextField *taskNameField = alert.textFields[0];
+        UITextField *taskDescriptionField = alert.textFields[1];
         NSString *taskName = taskNameField.text;
         NSString *taskDescription = taskDescriptionField.text;
         
@@ -92,7 +92,7 @@
     static NSString *CellIdentifier = @"TasksItemRow";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    CITask *task = [self.tasks objectAtIndex:indexPath.row];
+    CITask *task = self.tasks[(NSUInteger) indexPath.row];
     cell.textLabel.text = task.title;
     cell.detailTextLabel.text = task.subtitle;
     if (task.completed) {
@@ -107,14 +107,15 @@
 #pragma mark - check and uncheck row
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    CITask *task = [self.tasks objectAtIndex:indexPath.row];
+    CITask *task = self.tasks[(NSUInteger) indexPath.row];
     BOOL completed = task.completed;
     task.completed = !completed;
-    self.tasks[indexPath.row] = task;
+    self.tasks[(NSUInteger) indexPath.row] = task;
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = (task.completed) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     cell.textLabel.textColor = (task.completed) ? [UIColor lightGrayColor] : [UIColor blackColor];
     cell.detailTextLabel.textColor = (task.completed) ? [UIColor lightGrayColor] : [UIColor blackColor];
+    NSLog(@"Check");
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
  
@@ -130,7 +131,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.tasks removeObjectAtIndex:indexPath.row];
+        [self.tasks removeObjectAtIndex:(NSUInteger) indexPath.row];
         [tableView reloadData];
     }
 }

@@ -50,3 +50,17 @@ Carthage/Build
 
 fastlane/report.xml
 fastlane/screenshots
+.DS_Store
+.idea/.name
+.idea/CheckIt.iml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/xcode.xml
+CheckIt/.DS_Store
+CheckIt/Assets.xcassets/.DS_Store
+CheckIt/Classes/.DS_Store
+CheckIt/Classes/Application/.DS_Store
+CheckIt/Classes/ViewControllers/.DS_Store
