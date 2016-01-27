@@ -54,9 +54,15 @@
         UITextField *taskDescriptionField = [alert.textFields objectAtIndex:1];
         NSString *taskName = taskNameField.text;
         NSString *taskDescription = taskDescriptionField.text;
-        NSDictionary *newTask = @{@"task" : taskName, @"description" : taskDescription};
-        [self.tasks addObject:newTask];
-        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.tasks.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        if (taskName.length != 0)
+        {
+            NSDictionary *newTask = @{@"task" : taskName, @"description" : taskDescription};
+            [self.tasks addObject:newTask];
+            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.tasks.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        else {
+            [self presentViewController:alert animated:YES completion:nil];
+        }
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [alert dismissViewControllerAnimated:YES completion:nil];
