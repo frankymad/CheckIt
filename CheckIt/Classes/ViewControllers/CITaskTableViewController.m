@@ -12,13 +12,13 @@
 @interface CITaskTableViewController () <UIAlertViewDelegate>
 
 @property (nonatomic) NSMutableArray *tasks;
+@property (nonatomic, strong) UILongPressGestureRecognizer *lpgr;
 
 @end
 
 @implementation CITaskTableViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.tasks = @[[[CITask alloc] initWithTitle:@"Work hard!" subtitle:@"You must work harder" completed:NO],
@@ -27,48 +27,54 @@
                    ].mutableCopy;
     
     self.navigationItem.title = @"Check it";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editing:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewTask:)];
+    
+    self.lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressEditing:)];
+    self.lpgr.minimumPressDuration = .5f;
+    self.lpgr.allowableMovement = 100.0f;
+    
+    [self.view addGestureRecognizer:self.lpgr];
 }
 
 #pragma mark - editing
 
-- (void)editing:(UIBarButtonItem *)sender {
-    [self.tableView setEditing:!self.tableView.editing animated:YES];
-    
-    if (self.tableView.editing) {
-        sender.title = @"Done";
-        sender.style = UIBarButtonItemStyleDone;
-    }
-    else {
-        sender.title = @"Edit";
-        sender.style = UIBarButtonItemStylePlain;
+- (void)longPressEditing:(UILongPressGestureRecognizer *)sender {
+    if ([sender isEqual:self.lpgr]) {
+        if (sender.state == UIGestureRecognizerStateBegan) {
+            [self.tableView setEditing:!self.tableView.editing animated:YES];
+        }
     }
 }
 
 #pragma mark - addind new tasks
 
-//TODO Rewrite from UIAlertController to UIVewController somehow.
-
 - (void)addNewTask:(UIBarButtonItem *)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add new task" message:@"Write new task name and description" preferredStyle:UIAlertControllerStyleAlert];
+    
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         UITextField *taskNameField = [alert.textFields objectAtIndex:0];
         UITextField *taskDescriptionField = [alert.textFields objectAtIndex:1];
         NSString *taskName = taskNameField.text;
         NSString *taskDescription = taskDescriptionField.text;
+        
         if (taskName.length != 0) {
             CITask *newTask = [[CITask alloc] initWithTitle:taskName subtitle:taskDescription completed:NO];
             [self.tasks addObject:newTask];
             [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.tasks.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     }];
+    
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+    
     [alert addAction:ok];
     [alert addAction:cancel];
-    [alert addTextFieldWithConfigurationHandler:^(UITextField *taskNameField) { taskNameField.placeholder = @"Task name"; }];
-    [alert addTextFieldWithConfigurationHandler:^(UITextField *taskDescriptionField) { taskDescriptionField.placeholder = @"Description";
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *taskNameField) {
+        taskNameField.placeholder = @"Task name";
     }];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *taskDescriptionField) {
+        taskDescriptionField.placeholder = @"Description";
+    }];
+    
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -91,9 +97,10 @@
     cell.detailTextLabel.text = task.subtitle;
     if (task.completed) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        } else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
+    }
+    else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     return cell;
 }
 

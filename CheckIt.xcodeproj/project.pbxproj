@@ -192,6 +192,7 @@
 				24104AC71C4D1030006E4D17 /* Sources */,
 				24104AC81C4D1030006E4D17 /* Frameworks */,
 				24104AC91C4D1030006E4D17 /* Resources */,
+				24793DE11C58F4DB0033E446 /* TODO Script */,
 			);
 			buildRules = (
 			);
@@ -305,6 +306,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		24793DE11C58F4DB0033E446 /* TODO Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "TODO Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		24104AC71C4D1030006E4D17 /* Sources */ = {
