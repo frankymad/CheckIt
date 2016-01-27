@@ -10,4 +10,15 @@
 
 @implementation CITask
 
+- (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle completed:(BOOL)completed {
+        self = [super init];
+        if (self) {
+            self.title = title;
+            self.subtitle = subtitle;
+            self.completed = completed;
+        }
+        return self;
+    }
+
+
 @end
