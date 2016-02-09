@@ -11,4 +11,6 @@
 
 @interface CITaskTableViewController : UITableViewController
 
+@property (nonatomic, readonly) NSMutableArray* tasks;
+
 @end

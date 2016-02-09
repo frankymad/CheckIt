@@ -8,11 +8,13 @@
 
 #import "CITask.h"
 #import "CITaskTableViewController.h"
+#import "CICustomCell.h"
 
 @interface CITaskTableViewController () <UIAlertViewDelegate>
 
 @property (nonatomic) NSMutableArray *tasks;
 @property (nonatomic, strong) UILongPressGestureRecognizer *lpgr;
+@property (nonatomic, strong) UITapGestureRecognizer *stgr;
 
 @end
 
@@ -23,7 +25,7 @@
     
     self.tasks = @[[[CITask alloc] initWithTitle:@"Work hard!" subtitle:@"You must work harder" completed:NO],
                    [[CITask alloc] initWithTitle:@"Learn delegates!" subtitle:@"You need them" completed:NO],
-                   [[CITask alloc] initWithTitle:@"Learn protocols!" subtitle:@"You need them to!" completed:NO],
+                   [[CITask alloc] initWithTitle:@"Learn protocols!" subtitle:@"You need them to!" completed:YES],
                    ].mutableCopy;
     
     self.navigationItem.title = @"Check it";
@@ -32,8 +34,8 @@
     self.lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressEditing:)];
     self.lpgr.minimumPressDuration = .5f;
     self.lpgr.allowableMovement = 100.0f;
-    
     [self.view addGestureRecognizer:self.lpgr];
+    
 }
 
 #pragma mark - editing
@@ -41,7 +43,9 @@
 - (void)longPressEditing:(UILongPressGestureRecognizer *)sender {
     if ([sender isEqual:self.lpgr]) {
         if (sender.state == UIGestureRecognizerStateBegan) {
-            [self.tableView setEditing:!self.tableView.editing animated:YES];
+            
+            [self.tableView setEditing:!self.tableView.editing animated:NO];
+            
         }
     }
 }
@@ -89,40 +93,45 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"TasksItemRow";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    static NSString *CellIdentifier = @"CICustomCell";
+    CICustomCell *cell = (CICustomCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CICustomCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
+    }
     CITask *task = self.tasks[(NSUInteger) indexPath.row];
-    cell.textLabel.text = task.title;
-    cell.detailTextLabel.text = task.subtitle;
-    if (task.completed) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
-    else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
+    cell.taskLabel.text = task.title;
+    cell.detailLabel.text = task.subtitle;
+    UIImage *image = (task.completed) ? [UIImage imageNamed:@"check.png"] : [UIImage imageNamed:@"uncheck.png"];
+    [cell.checkMark setImage:image];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTap:)];
+    
+    [cell.checkMark addGestureRecognizer:tap];
+    [cell.checkMark setUserInteractionEnabled:YES];
     return cell;
 }
 
 #pragma mark - check and uncheck row
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+- (void)imageTap:(UITapGestureRecognizer *)sender
+{
+    CGPoint location = [sender locationInView:self.view];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
     CITask *task = self.tasks[(NSUInteger) indexPath.row];
     BOOL completed = task.completed;
     task.completed = !completed;
-    self.tasks[(NSUInteger) indexPath.row] = task;
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType = (task.completed) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    cell.textLabel.textColor = (task.completed) ? [UIColor lightGrayColor] : [UIColor blackColor];
-    cell.detailTextLabel.textColor = (task.completed) ? [UIColor lightGrayColor] : [UIColor blackColor];
-    NSLog(@"Check");
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView endUpdates];
 }
- 
 #pragma mark - delete task
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellEditingStyleDelete;
+    if (self.tableView.editing) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    return UITableViewCellEditingStyleNone;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

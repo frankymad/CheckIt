@@ -10,6 +10,10 @@
 
 @implementation CICustomCell
 
+@synthesize taskLabel = _taskLabel;
+@synthesize detailLabel = _detailLabel;
+@synthesize checkMark = _checkMark;
+
 - (void)awakeFromNib {
     // Initialization code
 }

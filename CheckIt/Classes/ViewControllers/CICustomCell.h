@@ -10,4 +10,8 @@
 
 @interface CICustomCell : UITableViewCell
 
+@property (nonatomic, weak) IBOutlet UILabel *taskLabel;
+@property (nonatomic, weak) IBOutlet UILabel *detailLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *checkMark;
+
 @end
