@@ -20,6 +20,7 @@
 		249673D61C6A15680092ECA0 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673D31C6A15680092ECA0 /* check.png */; };
 		249673D71C6A15680092ECA0 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673D41C6A15680092ECA0 /* delete.png */; };
 		249673D81C6A15680092ECA0 /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673D51C6A15680092ECA0 /* uncheck.png */; };
+		249673DE1C6A27510092ECA0 /* CITaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 249673DD1C6A27510092ECA0 /* CITaskDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,8 @@
 		249673D31C6A15680092ECA0 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = Images/check.png; sourceTree = "<group>"; };
 		249673D41C6A15680092ECA0 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete.png; path = Images/delete.png; sourceTree = "<group>"; };
 		249673D51C6A15680092ECA0 /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = uncheck.png; path = Images/uncheck.png; sourceTree = "<group>"; };
+		249673DC1C6A27510092ECA0 /* CITaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CITaskDetailViewController.h; sourceTree = "<group>"; };
+		249673DD1C6A27510092ECA0 /* CITaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CITaskDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +193,8 @@
 			children = (
 				24104B2F1C4D2086006E4D17 /* CITaskTableViewController.h */,
 				24104B301C4D2086006E4D17 /* CITaskTableViewController.m */,
+				249673DC1C6A27510092ECA0 /* CITaskDetailViewController.h */,
+				249673DD1C6A27510092ECA0 /* CITaskDetailViewController.m */,
 				24430EDA1C6871F700192176 /* CICustomCell.h */,
 				24430EDB1C6871F700192176 /* CICustomCell.m */,
 				24430EDD1C6872FD00192176 /* CICustomCell.xib */,
@@ -392,6 +397,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				249673DE1C6A27510092ECA0 /* CITaskDetailViewController.m in Sources */,
 				24104B311C4D2086006E4D17 /* CITaskTableViewController.m in Sources */,
 				24104B201C4D1B53006E4D17 /* AppDelegate.m in Sources */,
 				24430EDC1C6871F700192176 /* CICustomCell.m in Sources */,

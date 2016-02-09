@@ -8,6 +8,7 @@
 
 #import "CITask.h"
 #import "CITaskTableViewController.h"
+#import "CITaskDetailViewController.h"
 #import "CICustomCell.h"
 
 @interface CITaskTableViewController () <UIAlertViewDelegate>
@@ -23,9 +24,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.tasks = @[[[CITask alloc] initWithTitle:@"Work hard!" subtitle:@"You must work harder" completed:NO],
-                   [[CITask alloc] initWithTitle:@"Learn delegates!" subtitle:@"You need them" completed:NO],
-                   [[CITask alloc] initWithTitle:@"Learn protocols!" subtitle:@"You need them to!" completed:YES],
+    self.tasks = @[[[CITask alloc] initWithTitle:@"Task1" subtitle:@"Subtitle1" completed:NO],
+                   [[CITask alloc] initWithTitle:@"Task2" subtitle:@"Subtitle2" completed:NO],
+                   [[CITask alloc] initWithTitle:@"Task3" subtitle:@"Subtitle3" completed:YES],
+                   [[CITask alloc] initWithTitle:@"Task4" subtitle:@"Subtitle4" completed:NO],
+                   [[CITask alloc] initWithTitle:@"Task5" subtitle:@"Subtitle5" completed:YES],
+                   [[CITask alloc] initWithTitle:@"Task6" subtitle:@"Subtitle6" completed:NO],
                    ].mutableCopy;
     
     self.navigationItem.title = @"Check it";
@@ -140,7 +144,9 @@
     CITask *task = self.tasks[(NSUInteger) indexPath.row];
     if (self.tableView.editing) {
         [self.tasks removeObjectAtIndex:(NSUInteger) indexPath.row];
-        [self.tableView reloadData];
+        [self.tableView beginUpdates];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
     }
     else {
         BOOL completed = task.completed;
@@ -150,5 +156,14 @@
         [self.tableView endUpdates];
     }
 }
+
+/*
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.destinationViewController isKindOfClass:[CITaskDetailViewController class]]) {
+        CITaskDetailViewController *vc = (CITaskDetailViewController *)segue.destinationViewController;
+        vc.delegate = self;
+    }
+}
+*/
 
 @end
