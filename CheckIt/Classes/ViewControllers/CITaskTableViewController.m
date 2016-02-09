@@ -48,6 +48,7 @@
             
         }
     }
+    [self.tableView reloadData];
 }
 
 #pragma mark - addind new tasks
@@ -102,8 +103,14 @@
     CITask *task = self.tasks[(NSUInteger) indexPath.row];
     cell.taskLabel.text = task.title;
     cell.detailLabel.text = task.subtitle;
-    UIImage *image = (task.completed) ? [UIImage imageNamed:@"check.png"] : [UIImage imageNamed:@"uncheck.png"];
-    [cell.checkMark setImage:image];
+    if (self.tableView.editing) {
+        UIImage *image = [UIImage imageNamed:@"delete.png"];
+        [cell.checkMark setImage:image];
+    }
+    else {
+        UIImage *image = (task.completed) ? [UIImage imageNamed:@"check.png"] : [UIImage imageNamed:@"uncheck.png"];
+        [cell.checkMark setImage:image];
+    }
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTap:)];
     
@@ -112,36 +119,35 @@
     return cell;
 }
 
-#pragma mark - check and uncheck row
+#pragma mark - check/uncheck and delete task
 
-- (void)imageTap:(UITapGestureRecognizer *)sender
-{
-    CGPoint location = [sender locationInView:self.view];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
-    CITask *task = self.tasks[(NSUInteger) indexPath.row];
-    BOOL completed = task.completed;
-    task.completed = !completed;
-    [self.tableView beginUpdates];
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableView endUpdates];
-}
-#pragma mark - delete task
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.tableView.editing) {
-        return UITableViewCellEditingStyleDelete;
-    }
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     return UITableViewCellEditingStyleNone;
+}
+
+- (BOOL)tableView:(UITableView *)tableview shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+- (void)imageTap:(UITapGestureRecognizer *)sender
+{
+    CGPoint location = [sender locationInView:self.view];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    CITask *task = self.tasks[(NSUInteger) indexPath.row];
+    if (self.tableView.editing) {
         [self.tasks removeObjectAtIndex:(NSUInteger) indexPath.row];
-        [tableView reloadData];
+        [self.tableView reloadData];
+    }
+    else {
+        BOOL completed = task.completed;
+        task.completed = !completed;
+        [self.tableView beginUpdates];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView endUpdates];
     }
 }
 
