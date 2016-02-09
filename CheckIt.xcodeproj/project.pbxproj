@@ -17,9 +17,9 @@
 		2432048A1C4E252A005E7CEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 243204891C4E252A005E7CEA /* Main.storyboard */; };
 		24430EDC1C6871F700192176 /* CICustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 24430EDB1C6871F700192176 /* CICustomCell.m */; };
 		24430EDE1C6872FD00192176 /* CICustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24430EDD1C6872FD00192176 /* CICustomCell.xib */; };
-		249673CF1C69D7DE0092ECA0 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673CC1C69D7DE0092ECA0 /* check.png */; };
-		249673D01C69D7DE0092ECA0 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673CD1C69D7DE0092ECA0 /* delete.png */; };
-		249673D11C69D7DE0092ECA0 /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673CE1C69D7DE0092ECA0 /* uncheck.png */; };
+		249673D61C6A15680092ECA0 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673D31C6A15680092ECA0 /* check.png */; };
+		249673D71C6A15680092ECA0 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673D41C6A15680092ECA0 /* delete.png */; };
+		249673D81C6A15680092ECA0 /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673D51C6A15680092ECA0 /* uncheck.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,9 +60,9 @@
 		24430EDA1C6871F700192176 /* CICustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CICustomCell.h; sourceTree = "<group>"; };
 		24430EDB1C6871F700192176 /* CICustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CICustomCell.m; sourceTree = "<group>"; };
 		24430EDD1C6872FD00192176 /* CICustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CICustomCell.xib; path = ../../../CICustomCell.xib; sourceTree = "<group>"; };
-		249673CC1C69D7DE0092ECA0 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = ../../../Pictures/check.png; sourceTree = "<group>"; };
-		249673CD1C69D7DE0092ECA0 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete.png; path = ../../../Pictures/delete.png; sourceTree = "<group>"; };
-		249673CE1C69D7DE0092ECA0 /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = uncheck.png; path = ../../../Pictures/uncheck.png; sourceTree = "<group>"; };
+		249673D31C6A15680092ECA0 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = Images/check.png; sourceTree = "<group>"; };
+		249673D41C6A15680092ECA0 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete.png; path = Images/delete.png; sourceTree = "<group>"; };
+		249673D51C6A15680092ECA0 /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = uncheck.png; path = Images/uncheck.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,13 +113,11 @@
 		24104ACD1C4D1030006E4D17 /* CheckIt */ = {
 			isa = PBXGroup;
 			children = (
+				249673D21C6A154D0092ECA0 /* Images */,
 				24104B171C4D1B53006E4D17 /* Classes */,
 				243204891C4E252A005E7CEA /* Main.storyboard */,
 				24104ADF1C4D1030006E4D17 /* Info.plist */,
 				24104ADA1C4D1030006E4D17 /* Assets.xcassets */,
-				249673CC1C69D7DE0092ECA0 /* check.png */,
-				249673CD1C69D7DE0092ECA0 /* delete.png */,
-				249673CE1C69D7DE0092ECA0 /* uncheck.png */,
 				24104ACE1C4D1030006E4D17 /* Supporting Files */,
 			);
 			path = CheckIt;
@@ -197,6 +195,16 @@
 				24430EDD1C6872FD00192176 /* CICustomCell.xib */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		249673D21C6A154D0092ECA0 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				249673D31C6A15680092ECA0 /* check.png */,
+				249673D41C6A15680092ECA0 /* delete.png */,
+				249673D51C6A15680092ECA0 /* uncheck.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,12 +345,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				249673D71C6A15680092ECA0 /* delete.png in Resources */,
 				24104ADB1C4D1030006E4D17 /* Assets.xcassets in Resources */,
 				2432048A1C4E252A005E7CEA /* Main.storyboard in Resources */,
-				249673CF1C69D7DE0092ECA0 /* check.png in Resources */,
-				249673D01C69D7DE0092ECA0 /* delete.png in Resources */,
+				249673D61C6A15680092ECA0 /* check.png in Resources */,
 				24430EDE1C6872FD00192176 /* CICustomCell.xib in Resources */,
-				249673D11C69D7DE0092ECA0 /* uncheck.png in Resources */,
+				249673D81C6A15680092ECA0 /* uncheck.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
