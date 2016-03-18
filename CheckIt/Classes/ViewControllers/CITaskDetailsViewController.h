@@ -13,7 +13,7 @@
 @property (weak, nonatomic) IBOutlet UINavigationItem *navbar;
 @property (weak, nonatomic) IBOutlet UILabel *taskLabel;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
-@property (weak, nonatomic) NSString *titlecontents;
-@property (weak, nonatomic) NSString *subtitlecontents;
+@property (weak, nonatomic) IBOutlet UITextView *infoLabel;
+@property (strong, nonatomic) CITask *task;
 
 @end

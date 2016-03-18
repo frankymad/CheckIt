@@ -24,22 +24,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.tasks = @[[[CITask alloc] initWithTitle:@"Task1" subtitle:@"Subtitle1" completed:NO],
-                   [[CITask alloc] initWithTitle:@"Task2" subtitle:@"Subtitle2" completed:NO],
-                   [[CITask alloc] initWithTitle:@"Task3" subtitle:@"Subtitle3" completed:YES],
-                   [[CITask alloc] initWithTitle:@"Task4" subtitle:@"Subtitle4" completed:NO],
-                   [[CITask alloc] initWithTitle:@"Task5" subtitle:@"Subtitle5" completed:YES],
-                   [[CITask alloc] initWithTitle:@"Task6" subtitle:@"Subtitle6" completed:NO],
+    self.tasks = @[[[CITask alloc] initWithTitle:@"Task1" subtitle:@"Subtitle1" info:@"Long info руский текст... посмотрим как сработают переносы. Фактически переносы должны работать нормально, но тут увереным быть нельзя на 100%." completed:NO],
+                   [[CITask alloc] initWithTitle:@"Task2" subtitle:@"Subtitle2" info:@"Info 2" completed:NO],
+                   [[CITask alloc] initWithTitle:@"Task3" subtitle:@"Subtitle3" info:@"Info3" completed:YES],
+                   [[CITask alloc] initWithTitle:@"Task4" subtitle:@"Subtitle4" info:@"Info4" completed:NO],
+                   [[CITask alloc] initWithTitle:@"Task5" subtitle:@"Subtitle5" info:@"Info5" completed:YES],
+                   [[CITask alloc] initWithTitle:@"Task6" subtitle:@"Subtitle6" info:@"Info6" completed:NO],
                    ].mutableCopy;
     
     self.navigationItem.title = @"Check it";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewTask:)];
-    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressEditing:)];
     self.lpgr.minimumPressDuration = .5f;
     self.lpgr.allowableMovement = 100.0f;
     [self.view addGestureRecognizer:self.lpgr];
-    
 }
 
 #pragma mark - editing
@@ -67,7 +66,7 @@
         NSString *taskDescription = taskDescriptionField.text;
         
         if (taskName.length != 0) {
-            CITask *newTask = [[CITask alloc] initWithTitle:taskName subtitle:taskDescription completed:NO];
+            CITask *newTask = [[CITask alloc] initWithTitle:taskName subtitle:taskDescription info:@"None" completed:NO];
             [self.tasks addObject:newTask];
             [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.tasks.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
@@ -88,22 +87,12 @@
 }
 
 #pragma mark - Detail View
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"detailSegue"])
     {
-        NSLog(@"Work");
-        NSIndexPath *indexPath = nil;
-        NSString *titlestring = nil;
-        NSString *subtitlestring = nil;
-        
-        indexPath = [self.tableView indexPathForSelectedRow];
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         CITask *task = self.tasks[(NSUInteger) indexPath.row];
-        titlestring = task.title;
-        subtitlestring = task.subtitle;
-        
-        [[segue destinationViewController] setTitlecontents:titlestring];
-        [[segue destinationViewController] setSubtitlecontents:subtitlestring];
-        
+        [[segue destinationViewController] setTask:task];
     }
 }
 
@@ -119,14 +108,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"CICustomCell";
-    CICustomCell *cell = (CICustomCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CICustomCell" owner:self options:nil];
-        cell = [nib objectAtIndex:0];
-    }
+    CICustomCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     CITask *task = self.tasks[(NSUInteger) indexPath.row];
     cell.taskLabel.text = task.title;
     cell.detailLabel.text = task.subtitle;
+    cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
     if (self.tableView.editing) {
         UIImage *image = [UIImage imageNamed:@"Delete"];
         [cell.checkMark setImage:image];

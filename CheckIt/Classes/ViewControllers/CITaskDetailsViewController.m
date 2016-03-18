@@ -6,6 +6,8 @@
 //  Copyright © 2016 Weezlabs. All rights reserved.
 //
 
+#import "CITask.h"
+#import "CITaskTableViewController.h"
 #import "CITaskDetailsViewController.h"
 
 @interface CITaskDetailsViewController ()
@@ -13,32 +15,20 @@
 @end
 
 @implementation CITaskDetailsViewController
-@synthesize taskLabel;
-@synthesize detailLabel;
-@synthesize navbar;
+//@synthesize navbar;
+@synthesize task;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.taskLabel.text = self.titlecontents;
-    self.detailLabel.text = self.subtitlecontents;
-    self.navbar.title = self.titlecontents;
-    // Do any additional setup after loading the view.
+    self.taskLabel.text = task.title;
+    self.detailLabel.text = task.subtitle;
+    self.infoLabel.text = task.info;
+    self.navbar.title = task.title;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
