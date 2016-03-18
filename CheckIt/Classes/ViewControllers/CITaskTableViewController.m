@@ -8,6 +8,7 @@
 
 #import "CITask.h"
 #import "CITaskTableViewController.h"
+#import "CITaskDetailsViewController.h"
 #import "CICustomCell.h"
 
 @interface CITaskTableViewController () <UIAlertViewDelegate>
@@ -84,6 +85,26 @@
     }];
     
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Detail View
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"detailSegue"])
+    {
+        NSLog(@"Work");
+        NSIndexPath *indexPath = nil;
+        NSString *titlestring = nil;
+        NSString *subtitlestring = nil;
+        
+        indexPath = [self.tableView indexPathForSelectedRow];
+        CITask *task = self.tasks[(NSUInteger) indexPath.row];
+        titlestring = task.title;
+        subtitlestring = task.subtitle;
+        
+        [[segue destinationViewController] setTitlecontents:titlestring];
+        [[segue destinationViewController] setSubtitlecontents:subtitlestring];
+        
+    }
 }
 
 #pragma mark - table datasource

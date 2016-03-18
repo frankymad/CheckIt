@@ -17,6 +17,7 @@
 		2432048A1C4E252A005E7CEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 243204891C4E252A005E7CEA /* Main.storyboard */; };
 		24430EDC1C6871F700192176 /* CICustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 24430EDB1C6871F700192176 /* CICustomCell.m */; };
 		2488A0561C9BF9420096233C /* CICustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2488A0551C9BF9420096233C /* CICustomCell.xib */; };
+		2488A05F1C9C01C80096233C /* CITaskDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2488A05E1C9C01C80096233C /* CITaskDetailsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		24430EDA1C6871F700192176 /* CICustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CICustomCell.h; sourceTree = "<group>"; };
 		24430EDB1C6871F700192176 /* CICustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CICustomCell.m; sourceTree = "<group>"; };
 		2488A0551C9BF9420096233C /* CICustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CICustomCell.xib; sourceTree = SOURCE_ROOT; };
+		2488A05D1C9C01C80096233C /* CITaskDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CITaskDetailsViewController.h; sourceTree = "<group>"; };
+		2488A05E1C9C01C80096233C /* CITaskDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CITaskDetailsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +187,8 @@
 				2426AC571C9AD68D00BA1462 /* Views */,
 				24104B2F1C4D2086006E4D17 /* CITaskTableViewController.h */,
 				24104B301C4D2086006E4D17 /* CITaskTableViewController.m */,
+				2488A05D1C9C01C80096233C /* CITaskDetailsViewController.h */,
+				2488A05E1C9C01C80096233C /* CITaskDetailsViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -384,6 +389,7 @@
 				24104B201C4D1B53006E4D17 /* AppDelegate.m in Sources */,
 				24430EDC1C6871F700192176 /* CICustomCell.m in Sources */,
 				24104B2E1C4D2024006E4D17 /* CITask.m in Sources */,
+				2488A05F1C9C01C80096233C /* CITaskDetailsViewController.m in Sources */,
 				24104AD01C4D1030006E4D17 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

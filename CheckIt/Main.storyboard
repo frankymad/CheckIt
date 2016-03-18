@@ -37,6 +37,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="nLi-1K-uWf" kind="push" identifier="detailSegue" id="8gz-iN-Jrg"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>
@@ -50,6 +53,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="REZ-nV-tKb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-485" y="90"/>
+        </scene>
+        <!--Task Details View Controller-->
+        <scene sceneID="RwO-tn-2gj">
+            <objects>
+                <viewController id="nLi-1K-uWf" customClass="CITaskDetailsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dSB-8P-hmX"/>
+                        <viewControllerLayoutGuide type="bottom" id="JXT-od-Kbu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Pw4-t2-cXL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bhd-lD-SrE">
+                                <rect key="frame" x="20" y="88" width="280" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8F5-Hd-4sM">
+                                <rect key="frame" x="20" y="122" width="280" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="oep-Sn-dVr"/>
+                    <connections>
+                        <outlet property="detailLabel" destination="8F5-Hd-4sM" id="LQ1-bk-Iie"/>
+                        <outlet property="navbar" destination="oep-Sn-dVr" id="cKN-Cd-GXT"/>
+                        <outlet property="taskLabel" destination="Bhd-lD-SrE" id="RZm-BS-Iu2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YmC-C9-fO9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-64" y="83"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qVh-3c-U8K">
