@@ -8,7 +8,6 @@
 
 #import "CITask.h"
 #import "CITaskTableViewController.h"
-#import "CITaskDetailViewController.h"
 #import "CICustomCell.h"
 
 @interface CITaskTableViewController () <UIAlertViewDelegate>
@@ -108,11 +107,11 @@
     cell.taskLabel.text = task.title;
     cell.detailLabel.text = task.subtitle;
     if (self.tableView.editing) {
-        UIImage *image = [UIImage imageNamed:@"delete.png"];
+        UIImage *image = [UIImage imageNamed:@"Delete"];
         [cell.checkMark setImage:image];
     }
     else {
-        UIImage *image = (task.completed) ? [UIImage imageNamed:@"check.png"] : [UIImage imageNamed:@"uncheck.png"];
+        UIImage *image = (task.completed) ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
         [cell.checkMark setImage:image];
     }
     
@@ -125,7 +124,7 @@
 
 #pragma mark - check/uncheck and delete task
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleNone;
 }
 
@@ -156,14 +155,5 @@
         [self.tableView endUpdates];
     }
 }
-
-/*
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.destinationViewController isKindOfClass:[CITaskDetailViewController class]]) {
-        CITaskDetailViewController *vc = (CITaskDetailViewController *)segue.destinationViewController;
-        vc.delegate = self;
-    }
-}
-*/
 
 @end

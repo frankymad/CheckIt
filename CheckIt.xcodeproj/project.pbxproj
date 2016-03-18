@@ -16,11 +16,7 @@
 		24104B311C4D2086006E4D17 /* CITaskTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 24104B301C4D2086006E4D17 /* CITaskTableViewController.m */; };
 		2432048A1C4E252A005E7CEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 243204891C4E252A005E7CEA /* Main.storyboard */; };
 		24430EDC1C6871F700192176 /* CICustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 24430EDB1C6871F700192176 /* CICustomCell.m */; };
-		24430EDE1C6872FD00192176 /* CICustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24430EDD1C6872FD00192176 /* CICustomCell.xib */; };
-		249673D61C6A15680092ECA0 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673D31C6A15680092ECA0 /* check.png */; };
-		249673D71C6A15680092ECA0 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673D41C6A15680092ECA0 /* delete.png */; };
-		249673D81C6A15680092ECA0 /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 249673D51C6A15680092ECA0 /* uncheck.png */; };
-		249673DE1C6A27510092ECA0 /* CITaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 249673DD1C6A27510092ECA0 /* CITaskDetailViewController.m */; };
+		2488A0561C9BF9420096233C /* CICustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2488A0551C9BF9420096233C /* CICustomCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,19 +49,14 @@
 		24104AF51C4D1030006E4D17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		24104B191C4D1B53006E4D17 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		24104B1A1C4D1B53006E4D17 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		24104B2C1C4D2024006E4D17 /* CITask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CITask.h; path = ViewControllers/CITask.h; sourceTree = "<group>"; };
-		24104B2D1C4D2024006E4D17 /* CITask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CITask.m; path = ViewControllers/CITask.m; sourceTree = "<group>"; };
+		24104B2C1C4D2024006E4D17 /* CITask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CITask.h; path = ../ViewControllers/CITask.h; sourceTree = "<group>"; };
+		24104B2D1C4D2024006E4D17 /* CITask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CITask.m; path = ../ViewControllers/CITask.m; sourceTree = "<group>"; };
 		24104B2F1C4D2086006E4D17 /* CITaskTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CITaskTableViewController.h; sourceTree = "<group>"; };
 		24104B301C4D2086006E4D17 /* CITaskTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CITaskTableViewController.m; sourceTree = "<group>"; };
 		243204891C4E252A005E7CEA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		24430EDA1C6871F700192176 /* CICustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CICustomCell.h; sourceTree = "<group>"; };
 		24430EDB1C6871F700192176 /* CICustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CICustomCell.m; sourceTree = "<group>"; };
-		24430EDD1C6872FD00192176 /* CICustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CICustomCell.xib; path = ../../../CICustomCell.xib; sourceTree = "<group>"; };
-		249673D31C6A15680092ECA0 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = Images/check.png; sourceTree = "<group>"; };
-		249673D41C6A15680092ECA0 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete.png; path = Images/delete.png; sourceTree = "<group>"; };
-		249673D51C6A15680092ECA0 /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = uncheck.png; path = Images/uncheck.png; sourceTree = "<group>"; };
-		249673DC1C6A27510092ECA0 /* CITaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CITaskDetailViewController.h; sourceTree = "<group>"; };
-		249673DD1C6A27510092ECA0 /* CITaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CITaskDetailViewController.m; sourceTree = "<group>"; };
+		2488A0551C9BF9420096233C /* CICustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CICustomCell.xib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,11 +107,10 @@
 		24104ACD1C4D1030006E4D17 /* CheckIt */ = {
 			isa = PBXGroup;
 			children = (
-				249673D21C6A154D0092ECA0 /* Images */,
-				24104B171C4D1B53006E4D17 /* Classes */,
-				243204891C4E252A005E7CEA /* Main.storyboard */,
-				24104ADF1C4D1030006E4D17 /* Info.plist */,
 				24104ADA1C4D1030006E4D17 /* Assets.xcassets */,
+				24104B171C4D1B53006E4D17 /* Classes */,
+				24104ADF1C4D1030006E4D17 /* Info.plist */,
+				243204891C4E252A005E7CEA /* Main.storyboard */,
 				24104ACE1C4D1030006E4D17 /* Supporting Files */,
 			);
 			path = CheckIt;
@@ -155,8 +145,6 @@
 		24104B171C4D1B53006E4D17 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				24104B2C1C4D2024006E4D17 /* CITask.h */,
-				24104B2D1C4D2024006E4D17 /* CITask.m */,
 				24104B181C4D1B53006E4D17 /* Application */,
 				24104B1B1C4D1B53006E4D17 /* Categories */,
 				24104B1C1C4D1B53006E4D17 /* Models */,
@@ -184,6 +172,8 @@
 		24104B1C1C4D1B53006E4D17 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				24104B2D1C4D2024006E4D17 /* CITask.m */,
+				24104B2C1C4D2024006E4D17 /* CITask.h */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -191,25 +181,21 @@
 		24104B1D1C4D1B53006E4D17 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				2426AC571C9AD68D00BA1462 /* Views */,
 				24104B2F1C4D2086006E4D17 /* CITaskTableViewController.h */,
 				24104B301C4D2086006E4D17 /* CITaskTableViewController.m */,
-				249673DC1C6A27510092ECA0 /* CITaskDetailViewController.h */,
-				249673DD1C6A27510092ECA0 /* CITaskDetailViewController.m */,
-				24430EDA1C6871F700192176 /* CICustomCell.h */,
-				24430EDB1C6871F700192176 /* CICustomCell.m */,
-				24430EDD1C6872FD00192176 /* CICustomCell.xib */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		249673D21C6A154D0092ECA0 /* Images */ = {
+		2426AC571C9AD68D00BA1462 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				249673D31C6A15680092ECA0 /* check.png */,
-				249673D41C6A15680092ECA0 /* delete.png */,
-				249673D51C6A15680092ECA0 /* uncheck.png */,
+				24430EDA1C6871F700192176 /* CICustomCell.h */,
+				24430EDB1C6871F700192176 /* CICustomCell.m */,
+				2488A0551C9BF9420096233C /* CICustomCell.xib */,
 			);
-			name = Images;
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,12 +336,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				249673D71C6A15680092ECA0 /* delete.png in Resources */,
 				24104ADB1C4D1030006E4D17 /* Assets.xcassets in Resources */,
 				2432048A1C4E252A005E7CEA /* Main.storyboard in Resources */,
-				249673D61C6A15680092ECA0 /* check.png in Resources */,
-				24430EDE1C6872FD00192176 /* CICustomCell.xib in Resources */,
-				249673D81C6A15680092ECA0 /* uncheck.png in Resources */,
+				2488A0561C9BF9420096233C /* CICustomCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,7 +380,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				249673DE1C6A27510092ECA0 /* CITaskDetailViewController.m in Sources */,
 				24104B311C4D2086006E4D17 /* CITaskTableViewController.m in Sources */,
 				24104B201C4D1B53006E4D17 /* AppDelegate.m in Sources */,
 				24430EDC1C6871F700192176 /* CICustomCell.m in Sources */,
