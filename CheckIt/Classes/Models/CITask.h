@@ -15,6 +15,6 @@
 @property(nonatomic, strong) NSString *info;
 @property(nonatomic, assign) BOOL completed;
 
-- (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle info:(NSString *)info completed:(BOOL)completed;
+- (instancetype)initWithTitle:(NSString *)title info:(NSString *)info completed:(BOOL)completed;
 
 @end

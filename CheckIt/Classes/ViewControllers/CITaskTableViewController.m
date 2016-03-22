@@ -13,105 +13,108 @@
 
 @interface CITaskTableViewController () <UIAlertViewDelegate>
 
-@property (nonatomic) NSMutableArray *tasks;
-@property (nonatomic, strong) UILongPressGestureRecognizer *lpgr;
-@property (nonatomic, strong) UITapGestureRecognizer *stgr;
+@property (nonatomic, strong, readwrite) NSMutableArray *tasks;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longTap;
 
 @end
 
 @implementation CITaskTableViewController
 
-- (void)viewDidLoad {
+#pragma mark - Подгружаем массив из объектор CITask, задаем заголовок и элементы навигации. Добавляем обработчик длинного тапа.
+
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-    self.tasks = @[[[CITask alloc] initWithTitle:@"Task1" subtitle:@"Subtitle1" info:@"Long info руский текст... посмотрим как сработают переносы. Фактически переносы должны работать нормально, но тут увереным быть нельзя на 100%." completed:NO],
-                   [[CITask alloc] initWithTitle:@"Task2" subtitle:@"Subtitle2" info:@"Info 2" completed:NO],
-                   [[CITask alloc] initWithTitle:@"Task3" subtitle:@"Subtitle3" info:@"Info3" completed:YES],
-                   [[CITask alloc] initWithTitle:@"Task4" subtitle:@"Subtitle4" info:@"Info4" completed:NO],
-                   [[CITask alloc] initWithTitle:@"Task5" subtitle:@"Subtitle5" info:@"Info5" completed:YES],
-                   [[CITask alloc] initWithTitle:@"Task6" subtitle:@"Subtitle6" info:@"Info6" completed:NO],
+    self.tasks = @[[[CITask alloc] initWithTitle:@"Task1" info:@"Long info руский текст... посмотрим как сработают переносы. Фактически переносы должны работать нормально, но тут увереным быть нельзя на 100%." completed:NO],
+                   [[CITask alloc] initWithTitle:@"Task2" info:@"Info2" completed:NO],
+                   [[CITask alloc] initWithTitle:@"Task3" info:@"Info3" completed:YES],
+                   [[CITask alloc] initWithTitle:@"Task4" info:@"Info4" completed:NO],
+                   [[CITask alloc] initWithTitle:@"Task5" info:@"Info5" completed:YES],
+                   [[CITask alloc] initWithTitle:@"Task6" info:@"Info6" completed:NO],
                    ].mutableCopy;
     
     self.navigationItem.title = @"Check it";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewTask:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(enterNewTask:)];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressEditing:)];
-    self.lpgr.minimumPressDuration = .5f;
-    self.lpgr.allowableMovement = 100.0f;
-    [self.view addGestureRecognizer:self.lpgr];
+    self.longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressEditing:)];
+    self.longTap.minimumPressDuration = .5;
+    self.longTap.allowableMovement = 100.0;
+    [self.view addGestureRecognizer:self.longTap];
 }
 
-#pragma mark - editing
+#pragma mark - Обновляем таблицу при появлении view.
 
-- (void)longPressEditing:(UILongPressGestureRecognizer *)sender {
-    if ([sender isEqual:self.lpgr]) {
-        if (sender.state == UIGestureRecognizerStateBegan) {
-            
-            [self.tableView setEditing:!self.tableView.editing animated:NO];
-            
-        }
-    }
+-(void)viewWillAppear:(BOOL)animated
+{
     [self.tableView reloadData];
 }
 
-#pragma mark - addind new tasks
+#pragma mark - Обрабатываем длинный тап и переключаем режим редактирования tableView.
 
-- (void)addNewTask:(UIBarButtonItem *)sender {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add new task" message:@"Write new task name and description" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        UITextField *taskNameField = alert.textFields[0];
-        UITextField *taskDescriptionField = alert.textFields[1];
-        NSString *taskName = taskNameField.text;
-        NSString *taskDescription = taskDescriptionField.text;
-        
-        if (taskName.length != 0) {
-            CITask *newTask = [[CITask alloc] initWithTitle:taskName subtitle:taskDescription info:@"None" completed:NO];
-            [self.tasks addObject:newTask];
-            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.tasks.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+- (void)longPressEditing:(UILongPressGestureRecognizer *)sender
+{
+    if (sender == self.longTap) {
+        if (sender.state == UIGestureRecognizerStateBegan)
+        {
+            [self.tableView setEditing:!self.tableView.editing animated:YES];
         }
-    }];
-    
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
-    
-    [alert addAction:ok];
-    [alert addAction:cancel];
-    [alert addTextFieldWithConfigurationHandler:^(UITextField *taskNameField) {
-        taskNameField.placeholder = @"Task name";
-    }];
-    [alert addTextFieldWithConfigurationHandler:^(UITextField *taskDescriptionField) {
-        taskDescriptionField.placeholder = @"Description";
-    }];
-    
-    [self presentViewController:alert animated:YES completion:nil];
+    }
+    self.navigationItem.rightBarButtonItem = (self.tableView.editing) ? [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(doneButton:)] : [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(enterNewTask:)];
+    [self.tableView reloadData];
 }
 
-#pragma mark - Detail View
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+#pragma mark - Обработка нажатия кнопки "Done" в активном режиме редактирования tableView.
+
+- (void)doneButton:(UIBarButtonItem *)sender
+{
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(enterNewTask:)];
+    [self.tableView setEditing:NO];
+    [self.tableView reloadData];
+}
+
+#pragma mark - Обработка нажатия кнопки "+" - добавление нового таска.
+
+- (void)enterNewTask:(id)sender
+{
+    CITaskDetailsViewController *detailView = [self.storyboard instantiateViewControllerWithIdentifier:@"CITaskDetailsViewController"];
+    detailView.newTaskBoolean = YES;
+    detailView.delegate = self;
+    [self.navigationController pushViewController:detailView animated:YES];
+}
+
+#pragma mark - Получение данных из CITaskDetailViewController, добавление объекта в массив и обновление tableView.
+
+- (void)sendNewTask:(NSString *)name info:(NSString *)info
+{
+    CITask *newTask = [[CITask alloc] initWithTitle:name info:info completed:NO];
+    [self.tasks addObject:newTask];
+    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.tasks.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+#pragma mark - Обработка нажатия на ячейку tableView и передача данных в CITaskDetailsViewController.
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     if ([segue.identifier isEqualToString:@"detailSegue"])
     {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         CITask *task = self.tasks[(NSUInteger) indexPath.row];
+        BOOL newTask = NO;
+        [[segue destinationViewController] setNewTaskBoolean:newTask];
         [[segue destinationViewController] setTask:task];
     }
 }
 
-#pragma mark - table datasource
+#pragma mark - Формирование и настройка tableView.
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.tasks.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     static NSString *CellIdentifier = @"CICustomCell";
     CICustomCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     CITask *task = self.tasks[(NSUInteger) indexPath.row];
     cell.taskLabel.text = task.title;
-    cell.detailLabel.text = task.subtitle;
+    cell.detailLabel.text = task.info;
     cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
     if (self.tableView.editing) {
         UIImage *image = [UIImage imageNamed:@"Delete"];
@@ -123,25 +126,37 @@
     }
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTap:)];
-    
     [cell.checkMark addGestureRecognizer:tap];
     [cell.checkMark setUserInteractionEnabled:YES];
     return cell;
 }
 
-#pragma mark - check/uncheck and delete task
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.tasks.count;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return UITableViewCellEditingStyleNone;
 }
 
-- (BOOL)tableView:(UITableView *)tableview shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableview shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return NO;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return YES;
 }
+
+#pragma mark - Обработка нажатия на изображение, удаление записи или снятие/отметки completed.
 
 - (void)imageTap:(UITapGestureRecognizer *)sender
 {
