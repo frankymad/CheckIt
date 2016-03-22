@@ -26,9 +26,14 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    [self updateView];
+}
+
+- (void)updateView
+{
     if (self.newTaskBoolean)
     {
-        [super viewDidLoad];
         self.navigationItem.title = @"New Task";
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:nil action:@selector(saveTask:)];
         [self.infoLabel setDelegate:self];
@@ -40,9 +45,7 @@
     }
     else
     {
-        [super viewDidLoad];
         self.navigationItem.title = @"Task";
-        
         self.navigationItem.rightBarButtonItem = (self.taskEdit) ? [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:nil action:@selector(saveTask:)] : [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:nil action:@selector(editTask:)];
         self.taskLabel.text = self.task.title;
         self.infoLabel.text = self.task.info;
@@ -78,7 +81,7 @@
 {
     self.taskEdit = !self.taskEdit;
     [self.infoLabel setEditable:self.taskEdit];
-    [self viewDidLoad];
+    [self updateView];
 }
 
 #pragma mark - Обработка нажатия кнопки "Save".
@@ -92,13 +95,18 @@
         [delegate sendNewTask:addTaskName info:addTaskInfo];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
-    else
+    else if (!self.newTaskBoolean)
     {
         self.task.title = self.taskLabel.text;
         self.task.info = self.infoLabel.text;
         self.taskEdit = !self.taskEdit;
         [self.infoLabel setEditable:self.taskEdit];
-        [self viewDidLoad];
+        [self updateView];
+    }
+    else
+    {
+        self.infoLabel.text = @"Task description";
+        [self updateView];
     }
 }
 
