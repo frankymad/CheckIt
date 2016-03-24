@@ -14,7 +14,7 @@
 @interface CITaskTableViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, strong, readwrite) NSMutableArray *tasks;
-@property (nonatomic, strong) UILongPressGestureRecognizer *longTap;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longTapRecognizer;
 
 @end
 
@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
     
-    self.tasks = @[[[CITask alloc] initWithTitle:@"Task1" info:@"Long info руский текст... посмотрим как сработают переносы. Фактически переносы должны работать нормально, но тут увереным быть нельзя на 100%." completed:NO],
+    self.tasks = @[[[CITask alloc] initWithTitle:@"Task1" info:@"Info1" completed:NO],
                    [[CITask alloc] initWithTitle:@"Task2" info:@"Info2" completed:NO],
                    [[CITask alloc] initWithTitle:@"Task3" info:@"Info3" completed:YES],
                    [[CITask alloc] initWithTitle:@"Task4" info:@"Info4" completed:NO],
@@ -37,10 +37,11 @@
     self.navigationItem.title = @"Check it";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(enterNewTask:)];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressEditing:)];
-    self.longTap.minimumPressDuration = .5;
-    self.longTap.allowableMovement = 100.0;
-    [self.view addGestureRecognizer:self.longTap];
+    
+    self.longTapRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressEditing:)];
+    self.longTapRecognizer.minimumPressDuration = .5;
+    self.longTapRecognizer.allowableMovement = 100.0;
+    [self.view addGestureRecognizer:self.longTapRecognizer];
 }
 
 #pragma mark - Обновляем таблицу при появлении view.
@@ -54,7 +55,7 @@
 
 - (void)longPressEditing:(UILongPressGestureRecognizer *)sender
 {
-    if (sender == self.longTap) {
+    if (sender == self.longTapRecognizer) {
         if (sender.state == UIGestureRecognizerStateBegan)
         {
             [self.tableView setEditing:!self.tableView.editing animated:YES];
@@ -78,7 +79,7 @@
 - (void)enterNewTask:(id)sender
 {
     CITaskDetailsViewController *detailView = [self.storyboard instantiateViewControllerWithIdentifier:@"CITaskDetailsViewController"];
-    detailView.newTaskBoolean = YES;
+    detailView.editingNewTask = YES;
     detailView.delegate = self;
     [self.navigationController pushViewController:detailView animated:YES];
 }
@@ -101,8 +102,10 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         CITask *task = self.tasks[(NSUInteger) indexPath.row];
         BOOL newTask = NO;
-        [[segue destinationViewController] setNewTaskBoolean:newTask];
-        [[segue destinationViewController] setTask:task];
+        CITaskDetailsViewController *viewController = (CITaskDetailsViewController *)segue.destinationViewController;
+        viewController.editingNewTask = newTask;
+        viewController.task = task;
+        [segue destinationViewController];
     }
 }
 
@@ -110,12 +113,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"CICustomCell";
+    NSString *CellIdentifier =  NSStringFromClass([CICustomCell class]);
     CICustomCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     CITask *task = self.tasks[(NSUInteger) indexPath.row];
-    cell.taskLabel.text = task.title;
-    cell.detailLabel.text = task.info;
-    cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+    cell.taskNameLabel.text = task.title;
+    cell.taskInfoLabel.text = task.info;
+    
     if (self.tableView.editing) {
         UIImage *image = [UIImage imageNamed:@"Delete"];
         [cell.checkMark setImage:image];
@@ -160,7 +163,7 @@
 
 - (void)imageTap:(UITapGestureRecognizer *)sender
 {
-    CGPoint location = [sender locationInView:self.view];
+    CGPoint location = [sender locationInView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
     CITask *task = self.tasks[(NSUInteger) indexPath.row];
     if (self.tableView.editing) {

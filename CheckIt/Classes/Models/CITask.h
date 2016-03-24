@@ -11,7 +11,6 @@
 @interface CITask : NSObject
 
 @property(nonatomic, strong) NSString *title;
-@property(nonatomic, strong) NSString *subtitle;
 @property(nonatomic, strong) NSString *info;
 @property(nonatomic, assign) BOOL completed;
 

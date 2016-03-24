@@ -12,7 +12,7 @@
 
 @interface CITaskDetailsViewController ()
 
-@property(nonatomic, assign) BOOL taskEdit;
+@property(nonatomic, assign) BOOL editingActive;
 @property (nonatomic, retain) NSString *addTaskName;
 @property (nonatomic, retain) NSString *addTaskInfo;
 
@@ -20,94 +20,119 @@
 
 @implementation CITaskDetailsViewController
 
-@synthesize addTaskInfo, addTaskName, delegate;
+@synthesize  delegate;
 
 #pragma mark - Формирование и настройка текстовых полей.
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self updateView];
-}
-
-- (void)updateView
-{
-    if (self.newTaskBoolean)
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    if (self.editingNewTask)
     {
         self.navigationItem.title = @"New Task";
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:nil action:@selector(saveTask:)];
-        [self.infoLabel setDelegate:self];
-        [self.infoLabel setEditable:YES];
-        self.infoLabel.textColor = [UIColor colorWithRed:0.78 green:0.78 blue:0.80 alpha:1.0];
-        [self.taskLabel setEnabled:YES];
-        [self.taskLabel becomeFirstResponder];
-        self.chekmark.image = [UIImage imageNamed:@"Unchecked"];
+        self.taskInfoTextView.textColor = [UIColor colorWithRed:0.78 green:0.78 blue:0.80 alpha:1.0];
+        self.taskInfoTextView.editable = YES;
+        self.taskInfoTextView.delegate = self;
+        self.taskNameTextField.enabled = YES;
     }
     else
     {
         self.navigationItem.title = @"Task";
-        self.navigationItem.rightBarButtonItem = (self.taskEdit) ? [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:nil action:@selector(saveTask:)] : [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:nil action:@selector(editTask:)];
-        self.taskLabel.text = self.task.title;
-        self.infoLabel.text = self.task.info;
-        [self.taskLabel setEnabled:NO];
-        [self.infoLabel becomeFirstResponder];
-        self.chekmark.image = (self.task.completed) ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
+        self.taskNameTextField.text = self.task.title;
+        self.taskInfoTextView.text = self.task.info;
+        self.taskNameTextField.enabled = NO;
+    }
+    
+    [self updateControls];
+}
+
+- (void)updateControls
+{
+    if (self.editingNewTask)
+    {
+        self.navigationItem.rightBarButtonItem.title = @"Save";
+        self.navigationItem.rightBarButtonItem.action = @selector(saveTask:);
+        self.chekmark.image = [UIImage imageNamed:@"Unchecked"];
+        [self.taskNameTextField becomeFirstResponder];
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem.title = self.editingActive ? @"Save" : @"Edit";
+        self.navigationItem.rightBarButtonItem.action = self.editingActive ? @selector(saveTask:) : @selector(editTask:);
+        self.chekmark.image = self.task.completed ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
+        [self.taskInfoTextView becomeFirstResponder];
     }
 }
 
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView
 {
-    if(self.infoLabel.tag == 0) {
-        self.infoLabel.text = @"";
-        self.infoLabel.textColor = [UIColor blackColor];
-        self.infoLabel.tag = 1;
+    if(self.taskInfoTextView.tag == 0) {
+        self.taskInfoTextView.text = @"";
+        self.taskInfoTextView.textColor = [UIColor blackColor];
+        self.taskInfoTextView.tag = 1;
     }
     return YES;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    if([self.infoLabel.text length] == 0)
+    if([self.taskInfoTextView.text length] == 0)
     {
-        self.infoLabel.text = @"Task description";
-        self.infoLabel.textColor = [UIColor colorWithRed:0.78 green:0.78 blue:0.80 alpha:1.0];
-        self.infoLabel.tag = 0;
+        [self defaultTaskDescriptionText];
+        self.taskInfoTextView.tag = 0;
     }
+}
+
+- (void)defaultTaskDescriptionText
+{
+    self.taskInfoTextView.text = @"Task description";
+    self.taskInfoTextView.textColor = [UIColor colorWithRed:0.78 green:0.78 blue:0.80 alpha:1.0];
 }
 
 #pragma mark - Обработка нажатия кнопки "Edit" и редактирование записи.
 
 - (void)editTask:(UIBarButtonItem *)sender
 {
-    self.taskEdit = !self.taskEdit;
-    [self.infoLabel setEditable:self.taskEdit];
-    [self updateView];
+    self.editingActive = !self.editingActive;
+    self.taskInfoTextView.editable = self.editingActive;
+    [self updateControls];
 }
 
 #pragma mark - Обработка нажатия кнопки "Save".
 
 - (void)saveTask:(UIBarButtonItem *)sender
 {
-    if (self.newTaskBoolean && self.taskLabel.text.length != 0)
+    if (self.editingNewTask && self.taskNameTextField.text.length != 0)
     {
-        addTaskName = self.taskLabel.text;
-        addTaskInfo = ([self.infoLabel.text isEqualToString:@"Task description"]) ? @"" : self.infoLabel.text;
-        [delegate sendNewTask:addTaskName info:addTaskInfo];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        self.addTaskName = self.taskNameTextField.text;
+        self.addTaskInfo = ([self.taskInfoTextView.text isEqualToString:@"Task description"]) ? @"" : self.taskInfoTextView.text;
+        [delegate sendNewTask:self.addTaskName info:self.addTaskInfo];
+        [self.navigationController popViewControllerAnimated:YES];
     }
-    else if (!self.newTaskBoolean)
+    else if (!self.editingNewTask)
     {
-        self.task.title = self.taskLabel.text;
-        self.task.info = self.infoLabel.text;
-        self.taskEdit = !self.taskEdit;
-        [self.infoLabel setEditable:self.taskEdit];
-        [self updateView];
+        self.task.title = self.taskNameTextField.text;
+        self.task.info = self.taskInfoTextView.text;
+        self.editingActive = !self.editingActive;
+        [self.taskInfoTextView setEditable:self.editingActive];
     }
     else
     {
-        self.infoLabel.text = @"Task description";
-        [self updateView];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Task name can't be blank." preferredStyle:UIAlertControllerStyleAlert];
+
+        [self presentViewController:alert animated:YES completion:nil];
+        [self performSelector:@selector(dismissAlert:) withObject:alert afterDelay:2.0];
+        [self defaultTaskDescriptionText];
     }
+    [self updateControls];
+}
+
+-(void)dismissAlert:(UIAlertController*)alert
+{
+    [alert dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
