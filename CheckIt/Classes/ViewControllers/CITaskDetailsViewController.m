@@ -22,7 +22,7 @@
 
 @synthesize  sendDataProtocolDelegate;
 
-#pragma mark - Формирование и настройка текстовых полей.
+#pragma mark - load data
 
 - (void)viewDidLoad
 {
@@ -50,6 +50,8 @@
     [self updateControls];
 }
 
+#pragma mark - update buttons
+
 - (void)updateControls
 {
     if (self.editingNewTask)
@@ -66,7 +68,7 @@
     }
 }
 
-- (BOOL) textViewShouldBeginEditing:(UITextView *)textView
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     if(self.taskInfoTextView.tag == 0) {
         self.taskInfoTextView.text = @"";
@@ -91,7 +93,7 @@
     self.taskInfoTextView.textColor = [UIColor colorWithRed:0.78 green:0.78 blue:0.80 alpha:1.0];
 }
 
-#pragma mark - Обработка нажатия кнопки "Edit" и редактирование записи.
+#pragma mark - edit button action
 
 - (void)editTask:(id)sender
 {
@@ -101,14 +103,15 @@
     [self updateControls];
 }
 
-#pragma mark - Обработка нажатия кнопки "Save".
+#pragma mark - save button action
 
 - (void)saveTask:(id)sender
 {
     if (self.editingNewTask && self.taskNameTextField.text.length != 0)
     {
         self.addTaskName = self.taskNameTextField.text;
-        self.addTaskInfo = ([self.taskInfoTextView.text isEqualToString:@"Task description"]) ? @"" : self.taskInfoTextView.text;
+        self.addTaskInfo = [self.taskInfoTextView.text isEqualToString:@"Task description"] ? @"" : self.taskInfoTextView.text;
+        
         [sendDataProtocolDelegate sendNewTask:self.addTaskName info:self.addTaskInfo];
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -128,6 +131,8 @@
     }
     [self updateControls];
 }
+
+#pragma mark - dismiss alert "Empty task"
 
 -(void)dismissAlert:(UIAlertController*)alert
 {

@@ -20,7 +20,7 @@
 
 @implementation CITaskTableViewController
 
-#pragma mark - Подгружаем массив из объектор CITask, задаем заголовок и элементы навигации. Добавляем обработчик длинного тапа.
+#pragma mark - load data 
 
 - (void)viewDidLoad
 {
@@ -44,14 +44,14 @@
     [self.view addGestureRecognizer:self.longTapRecognizer];
 }
 
-#pragma mark - Обновляем таблицу при появлении view.
+#pragma mark - update view table
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
 }
 
-#pragma mark - Обрабатываем длинный тап и переключаем режим редактирования tableView.
+#pragma mark - long tap gesture recognizer
 
 - (void)longPressEditing:(UILongPressGestureRecognizer *)sender
 {
@@ -65,7 +65,7 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - Обработка нажатия кнопки "Done" в активном режиме редактирования tableView.
+#pragma mark - "done" button action
 
 - (void)doneButton:(UIBarButtonItem *)sender
 {
@@ -74,26 +74,26 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - Обработка нажатия кнопки "+" - добавление нового таска.
+#pragma mark - "+" button action
 
 - (void)enterNewTask:(id)sender
 {
     CITaskDetailsViewController *detailView = [self.storyboard instantiateViewControllerWithIdentifier:@"CITaskDetailsViewController"];
     detailView.editingNewTask = YES;
-    detailView.delegate = self;
+    detailView.sendDataProtocolDelegate = self;
     [self.navigationController pushViewController:detailView animated:YES];
 }
 
-#pragma mark - Получение данных из CITaskDetailViewController, добавление объекта в массив и обновление tableView.
+#pragma mark - get data from detailView and add new task
 
-- (void)tableView:(UITableView *)tableView sendNewTask:(NSString *)name info:(NSString *)info
+- (void)sendNewTask:(NSString *)name info:(NSString *)info
 {
     CITask *newTask = [[CITask alloc] initWithTitle:name info:info completed:NO];
     [self.tasks addObject:newTask];
     [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.tasks.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-#pragma mark - Обработка нажатия на ячейку tableView и передача данных в CITaskDetailsViewController.
+#pragma mark - detailView
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -109,7 +109,7 @@
     }
 }
 
-#pragma mark - Формирование и настройка tableView.
+#pragma mark - table data
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -159,7 +159,7 @@
     return YES;
 }
 
-#pragma mark - Обработка нажатия на изображение, удаление записи или снятие/отметки completed.
+#pragma mark - image tap action
 
 - (void)imageTap:(UITapGestureRecognizer *)sender
 {
