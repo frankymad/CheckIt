@@ -6,7 +6,7 @@
 //  Copyright © 2016 Weezlabs. All rights reserved.
 //
 
-@protocol senddataProtocol <NSObject>
+@protocol SendDataProtocol <NSObject>
 
 -(void)sendNewTask:(NSString *)name info:(NSString *)info;
 
@@ -16,7 +16,7 @@
 
 @interface CITaskDetailsViewController : UIViewController <UITextViewDelegate>
 
-@property(nonatomic,assign)id delegate;
+@property(nonatomic,assign)id sendDataProtocolDelegate;
 
 @property (weak, nonatomic) IBOutlet UIImageView *chekmark;
 @property (weak, nonatomic) IBOutlet UITextField *taskNameTextField;

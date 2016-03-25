@@ -20,7 +20,7 @@
 
 @implementation CITaskDetailsViewController
 
-@synthesize  delegate;
+@synthesize  sendDataProtocolDelegate;
 
 #pragma mark - Формирование и настройка текстовых полей.
 
@@ -28,7 +28,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
     
     if (self.editingNewTask)
     {
@@ -37,6 +37,7 @@
         self.taskInfoTextView.editable = YES;
         self.taskInfoTextView.delegate = self;
         self.taskNameTextField.enabled = YES;
+        [self.taskNameTextField becomeFirstResponder];
     }
     else
     {
@@ -56,14 +57,12 @@
         self.navigationItem.rightBarButtonItem.title = @"Save";
         self.navigationItem.rightBarButtonItem.action = @selector(saveTask:);
         self.chekmark.image = [UIImage imageNamed:@"Unchecked"];
-        [self.taskNameTextField becomeFirstResponder];
     }
     else
     {
         self.navigationItem.rightBarButtonItem.title = self.editingActive ? @"Save" : @"Edit";
         self.navigationItem.rightBarButtonItem.action = self.editingActive ? @selector(saveTask:) : @selector(editTask:);
         self.chekmark.image = self.task.completed ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
-        [self.taskInfoTextView becomeFirstResponder];
     }
 }
 
@@ -94,30 +93,30 @@
 
 #pragma mark - Обработка нажатия кнопки "Edit" и редактирование записи.
 
-- (void)editTask:(UIBarButtonItem *)sender
+- (void)editTask:(id)sender
 {
     self.editingActive = !self.editingActive;
     self.taskInfoTextView.editable = self.editingActive;
+    [self.taskInfoTextView becomeFirstResponder];
     [self updateControls];
 }
 
 #pragma mark - Обработка нажатия кнопки "Save".
 
-- (void)saveTask:(UIBarButtonItem *)sender
+- (void)saveTask:(id)sender
 {
     if (self.editingNewTask && self.taskNameTextField.text.length != 0)
     {
         self.addTaskName = self.taskNameTextField.text;
         self.addTaskInfo = ([self.taskInfoTextView.text isEqualToString:@"Task description"]) ? @"" : self.taskInfoTextView.text;
-        [delegate sendNewTask:self.addTaskName info:self.addTaskInfo];
+        [sendDataProtocolDelegate sendNewTask:self.addTaskName info:self.addTaskInfo];
         [self.navigationController popViewControllerAnimated:YES];
     }
     else if (!self.editingNewTask)
     {
-        self.task.title = self.taskNameTextField.text;
         self.task.info = self.taskInfoTextView.text;
         self.editingActive = !self.editingActive;
-        [self.taskInfoTextView setEditable:self.editingActive];
+        self.taskInfoTextView.editable = self.editingActive;
     }
     else
     {

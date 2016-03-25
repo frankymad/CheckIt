@@ -86,7 +86,7 @@
 
 #pragma mark - Получение данных из CITaskDetailViewController, добавление объекта в массив и обновление tableView.
 
-- (void)sendNewTask:(NSString *)name info:(NSString *)info
+- (void)tableView:(UITableView *)tableView sendNewTask:(NSString *)name info:(NSString *)info
 {
     CITask *newTask = [[CITask alloc] initWithTitle:name info:info completed:NO];
     [self.tasks addObject:newTask];
