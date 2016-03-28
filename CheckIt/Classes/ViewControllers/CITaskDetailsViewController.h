@@ -21,7 +21,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *chekmark;
 @property (weak, nonatomic) IBOutlet UITextField *taskNameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *taskInfoTextView;
-@property (strong, nonatomic) CITask *task;
 @property (assign, nonatomic) BOOL editingNewTask;
+
+@property (assign, nonatomic) id delegate;
+@property (strong, nonatomic) id detailItem;
 
 @end

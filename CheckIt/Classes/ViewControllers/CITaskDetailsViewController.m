@@ -6,7 +6,6 @@
 //  Copyright © 2016 Weezlabs. All rights reserved.
 //
 
-#import "CITask.h"
 #import "CITaskTableViewController.h"
 #import "CITaskDetailsViewController.h"
 
@@ -20,7 +19,7 @@
 
 @implementation CITaskDetailsViewController
 
-@synthesize  sendDataProtocolDelegate;
+@synthesize sendDataProtocolDelegate;
 
 #pragma mark - load data
 
@@ -41,9 +40,10 @@
     }
     else
     {
+        NSLog(@"%@", [[self.detailItem valueForKey:@"taskName"] description]);
         self.navigationItem.title = @"Task";
-        self.taskNameTextField.text = self.task.title;
-        self.taskInfoTextView.text = self.task.info;
+        self.taskNameTextField.text = [[self.detailItem valueForKey:@"taskName"] description];
+        self.taskInfoTextView.text = [[self.detailItem valueForKey:@"taskInfo"] description];
         self.taskNameTextField.enabled = NO;
     }
     
@@ -64,7 +64,7 @@
     {
         self.navigationItem.rightBarButtonItem.title = self.editingActive ? @"Save" : @"Edit";
         self.navigationItem.rightBarButtonItem.action = self.editingActive ? @selector(saveTask:) : @selector(editTask:);
-        self.chekmark.image = self.task.completed ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
+        self.chekmark.image = [[self.detailItem valueForKey:@"taskComplete"] boolValue] ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
     }
 }
 
@@ -117,7 +117,7 @@
     }
     else if (!self.editingNewTask)
     {
-        self.task.info = self.taskInfoTextView.text;
+        [self.detailItem setValue:self.taskInfoTextView.text forKey:@"taskInfo"];
         self.editingActive = !self.editingActive;
         self.taskInfoTextView.editable = self.editingActive;
     }

@@ -15,8 +15,8 @@
 		24104B311C4D2086006E4D17 /* CITaskTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 24104B301C4D2086006E4D17 /* CITaskTableViewController.m */; };
 		2432048A1C4E252A005E7CEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 243204891C4E252A005E7CEA /* Main.storyboard */; };
 		2488A05F1C9C01C80096233C /* CITaskDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2488A05E1C9C01C80096233C /* CITaskDetailsViewController.m */; };
-		2488A0621C9C72C80096233C /* CITask.m in Sources */ = {isa = PBXBuildFile; fileRef = 2488A0611C9C72C80096233C /* CITask.m */; };
 		2488A0651C9C73090096233C /* CICustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2488A0641C9C73090096233C /* CICustomCell.m */; };
+		24C9C2AD1CA86D8600649D70 /* citask.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24C9C2AB1CA86D8600649D70 /* citask.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,10 +54,9 @@
 		243204891C4E252A005E7CEA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		2488A05D1C9C01C80096233C /* CITaskDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CITaskDetailsViewController.h; sourceTree = "<group>"; };
 		2488A05E1C9C01C80096233C /* CITaskDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CITaskDetailsViewController.m; sourceTree = "<group>"; };
-		2488A0601C9C72C80096233C /* CITask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CITask.h; sourceTree = "<group>"; };
-		2488A0611C9C72C80096233C /* CITask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CITask.m; sourceTree = "<group>"; };
 		2488A0631C9C73090096233C /* CICustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CICustomCell.h; path = Views/CICustomCell.h; sourceTree = "<group>"; };
 		2488A0641C9C73090096233C /* CICustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CICustomCell.m; path = Views/CICustomCell.m; sourceTree = "<group>"; };
+		24C9C2AC1CA86D8600649D70 /* CITask.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CITask.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,8 +172,6 @@
 		24104B1C1C4D1B53006E4D17 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				2488A0611C9C72C80096233C /* CITask.m */,
-				2488A0601C9C72C80096233C /* CITask.h */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -187,6 +184,7 @@
 				24104B301C4D2086006E4D17 /* CITaskTableViewController.m */,
 				2488A05D1C9C01C80096233C /* CITaskDetailsViewController.h */,
 				2488A05E1C9C01C80096233C /* CITaskDetailsViewController.m */,
+				24C9C2AB1CA86D8600649D70 /* citask.xcdatamodeld */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -381,11 +379,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24C9C2AD1CA86D8600649D70 /* citask.xcdatamodeld in Sources */,
 				2488A0651C9C73090096233C /* CICustomCell.m in Sources */,
 				24104B311C4D2086006E4D17 /* CITaskTableViewController.m in Sources */,
 				24104B201C4D1B53006E4D17 /* AppDelegate.m in Sources */,
 				2488A05F1C9C01C80096233C /* CITaskDetailsViewController.m in Sources */,
-				2488A0621C9C72C80096233C /* CITask.m in Sources */,
 				24104AD01C4D1030006E4D17 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -612,6 +610,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		24C9C2AB1CA86D8600649D70 /* citask.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				24C9C2AC1CA86D8600649D70 /* CITask.xcdatamodel */,
+			);
+			currentVersion = 24C9C2AC1CA86D8600649D70 /* CITask.xcdatamodel */;
+			name = citask.xcdatamodeld;
+			path = ../../citask.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 24104AC31C4D102F006E4D17 /* Project object */;
 }

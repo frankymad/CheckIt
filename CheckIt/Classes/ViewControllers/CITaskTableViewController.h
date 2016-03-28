@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 
-@interface CITaskTableViewController : UITableViewController
+@interface CITaskTableViewController : UITableViewController <NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong, readonly) NSMutableArray* tasks;
+
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @end
