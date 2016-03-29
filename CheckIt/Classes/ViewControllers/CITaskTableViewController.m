@@ -6,9 +6,12 @@
 //  Copyright © 2016 Weezlabs. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "CITaskTableViewController.h"
 #import "CITaskDetailsViewController.h"
 #import "CICustomCell.h"
+#import "Task+CoreDataProperties.h"
+#import "Task.h"
 
 @interface CITaskTableViewController () <UIAlertViewDelegate>
 
@@ -34,8 +37,8 @@
     self.longTapRecognizer.allowableMovement = 100.0;
     [self.view addGestureRecognizer:self.longTapRecognizer];
     
-    id delegate = [[UIApplication sharedApplication] delegate];
-    self.managedObjectContext = [delegate managedObjectContext];
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    self.managedObjectContext = [appDelegate managedObjectContext];
 }
 
 #pragma mark - update view table
@@ -83,20 +86,15 @@
 - (void)sendNewTask:(NSString *)name info:(NSString *)info
 {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-
-    [newManagedObject setValue:name forKey:@"taskName"];
-    [newManagedObject setValue:info forKey:@"taskInfo"];
-    [newManagedObject setValue:[NSNumber numberWithBool:NO] forKey:@"taskComplete"];
-    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
+    Task *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"Task" inManagedObjectContext:context];
+    AppDelegate *appDelegate = [[AppDelegate alloc] init];
     
-    NSError *error = nil;
-    if (![context save:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
+    newManagedObject.name = name;
+    newManagedObject.info = info;
+    newManagedObject.complete = NO;
+    newManagedObject.timeStamp = [NSDate date];
+    
+    [appDelegate saveContext];
 }
 
 #pragma mark - detailView
@@ -109,8 +107,6 @@
         CITaskDetailsViewController *viewController = (CITaskDetailsViewController *)segue.destinationViewController;
         NSManagedObject *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         viewController.detailItem = selectedObject;
-        viewController.delegate = self;
-        [segue destinationViewController];
     }
 }
 
@@ -126,16 +122,17 @@
 
 - (void)configureCell:(CICustomCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.taskNameLabel.text = [[object valueForKey:@"taskName"] description];
-    cell.taskInfoLabel.text = [[object valueForKey:@"taskInfo"] description];
+    Task *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    cell.taskNameLabel.text = object.name;
+    cell.taskInfoLabel.text = object.info;
 
     if (self.tableView.editing) {
         UIImage *image = [UIImage imageNamed:@"Delete"];
         [cell.checkMark setImage:image];
     }
     else {
-        UIImage *image = [[object valueForKey:@"taskComplete"] boolValue] ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
+        UIImage *image = [object.complete boolValue] ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
         [cell.checkMark setImage:image];
     }
     
@@ -189,10 +186,9 @@
     
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
 
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-    
+    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    _fetchedResultsController.delegate = self;
+
     NSError *error = nil;
     if (![self.fetchedResultsController performFetch:&error])
     {
@@ -253,7 +249,8 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    [self saveContext];
+    AppDelegate *appDelegate = [[AppDelegate alloc] init];
+    [appDelegate saveContext];
     [self.tableView endUpdates];
 }
 
@@ -269,18 +266,12 @@
         [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
     }
     else {
-        NSManagedObject *selectedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        BOOL number = [[selectedObject valueForKey:@"taskComplete"] boolValue];
-        [selectedObject setValue:[NSNumber numberWithBool:!number] forKey:@"taskComplete"];
-        [self saveContext];
+        Task *selectedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        BOOL number = [selectedObject.complete boolValue];
+        selectedObject.complete = [NSNumber numberWithBool:!number];
+        AppDelegate *appDelegate = [[AppDelegate alloc] init];
+        [appDelegate saveContext];
     }
 }
-
-- (void)saveContext
-{
-    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSError *error = nil;
-    [context save:&error];
-}
-
+ 
 @end

@@ -19,8 +19,6 @@
 
 @implementation CITaskDetailsViewController
 
-@synthesize sendDataProtocolDelegate;
-
 #pragma mark - load data
 
 - (void)viewDidLoad
@@ -40,10 +38,9 @@
     }
     else
     {
-        NSLog(@"%@", [[self.detailItem valueForKey:@"taskName"] description]);
         self.navigationItem.title = @"Task";
-        self.taskNameTextField.text = [[self.detailItem valueForKey:@"taskName"] description];
-        self.taskInfoTextView.text = [[self.detailItem valueForKey:@"taskInfo"] description];
+        self.taskNameTextField.text = [[self.detailItem valueForKey:@"name"] description];
+        self.taskInfoTextView.text = [[self.detailItem valueForKey:@"info"] description];
         self.taskNameTextField.enabled = NO;
     }
     
@@ -64,7 +61,7 @@
     {
         self.navigationItem.rightBarButtonItem.title = self.editingActive ? @"Save" : @"Edit";
         self.navigationItem.rightBarButtonItem.action = self.editingActive ? @selector(saveTask:) : @selector(editTask:);
-        self.chekmark.image = [[self.detailItem valueForKey:@"taskComplete"] boolValue] ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
+        self.chekmark.image = [[self.detailItem valueForKey:@"complete"] boolValue] ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
     }
 }
 
@@ -112,12 +109,13 @@
         self.addTaskName = self.taskNameTextField.text;
         self.addTaskInfo = [self.taskInfoTextView.text isEqualToString:@"Task description"] ? @"" : self.taskInfoTextView.text;
         
-        [sendDataProtocolDelegate sendNewTask:self.addTaskName info:self.addTaskInfo];
+        [_sendDataProtocolDelegate sendNewTask:self.addTaskName info:self.addTaskInfo];
+        
         [self.navigationController popViewControllerAnimated:YES];
     }
     else if (!self.editingNewTask)
     {
-        [self.detailItem setValue:self.taskInfoTextView.text forKey:@"taskInfo"];
+        [self.detailItem setValue:self.taskInfoTextView.text forKey:@"info"];
         self.editingActive = !self.editingActive;
         self.taskInfoTextView.editable = self.editingActive;
     }

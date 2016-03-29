@@ -26,7 +26,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="62"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z3j-8D-kiW">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z3j-8D-kiW">
                                             <rect key="frame" x="74" y="4" width="203" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -89,8 +89,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="Task name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="loC-KA-U0T">
-                                <rect key="frame" x="57" y="80" width="87" height="21"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="Task name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="loC-KA-U0T">
+                                <rect key="frame" x="62" y="85" width="238" height="21"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" selected="YES" staticText="YES"/>
                                     <bool key="isElement" value="YES"/>
@@ -98,34 +98,18 @@
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Task description" translatesAutoresizingMaskIntoConstraints="NO" id="yE2-4J-tno">
-                                <rect key="frame" x="18" y="120" width="285" height="339"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yo0-TJ-lca">
+                                <rect key="frame" x="4" y="70" width="50" height="50"/>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Task description" translatesAutoresizingMaskIntoConstraints="NO" id="yE2-4J-tno">
+                                <rect key="frame" x="20" y="128" width="280" height="331"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="339" id="TTw-00-d2h"/>
-                                </constraints>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yo0-TJ-lca">
-                                <rect key="frame" x="4" y="70" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="g4j-Xg-fn7"/>
-                                    <constraint firstAttribute="width" constant="50" id="jUq-rK-Mol"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="yE2-4J-tno" firstAttribute="top" secondItem="yo0-TJ-lca" secondAttribute="bottom" id="628-uQ-gvP"/>
-                            <constraint firstItem="yE2-4J-tno" firstAttribute="leading" secondItem="Pw4-t2-cXL" secondAttribute="leading" constant="18" id="AZz-Eo-1QA"/>
-                            <constraint firstItem="loC-KA-U0T" firstAttribute="top" secondItem="OEH-9B-Ben" secondAttribute="bottom" constant="16" id="OVP-Hn-n3e"/>
-                            <constraint firstItem="loC-KA-U0T" firstAttribute="leading" secondItem="yo0-TJ-lca" secondAttribute="trailing" constant="3" id="P0m-SD-fzu"/>
-                            <constraint firstItem="yo0-TJ-lca" firstAttribute="leading" secondItem="Pw4-t2-cXL" secondAttribute="leading" constant="4" id="vXu-ee-17h"/>
-                            <constraint firstAttribute="trailing" secondItem="yE2-4J-tno" secondAttribute="trailing" constant="17" id="x3L-l1-dCz"/>
-                            <constraint firstItem="yo0-TJ-lca" firstAttribute="top" secondItem="OEH-9B-Ben" secondAttribute="bottom" constant="6" id="zPx-tl-Zy5"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="oep-Sn-dVr"/>
                     <connections>

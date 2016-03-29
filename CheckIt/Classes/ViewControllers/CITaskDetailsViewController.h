@@ -17,13 +17,10 @@
 @interface CITaskDetailsViewController : UIViewController <UITextViewDelegate>
 
 @property(nonatomic,assign)id sendDataProtocolDelegate;
-
 @property (weak, nonatomic) IBOutlet UIImageView *chekmark;
 @property (weak, nonatomic) IBOutlet UITextField *taskNameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *taskInfoTextView;
 @property (assign, nonatomic) BOOL editingNewTask;
-
-@property (assign, nonatomic) id delegate;
 @property (strong, nonatomic) id detailItem;
 
 @end
