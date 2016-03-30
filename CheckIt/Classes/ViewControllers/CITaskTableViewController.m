@@ -10,7 +10,6 @@
 #import "CITaskTableViewController.h"
 #import "CITaskDetailsViewController.h"
 #import "CICustomCell.h"
-#import "Task+CoreDataProperties.h"
 #import "Task.h"
 
 @interface CITaskTableViewController () <UIAlertViewDelegate>
@@ -87,14 +86,14 @@
 {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     Task *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"Task" inManagedObjectContext:context];
-    AppDelegate *appDelegate = [[AppDelegate alloc] init];
+    //AppDelegate *appDelegate = [[AppDelegate alloc] init];
     
     newManagedObject.name = name;
     newManagedObject.info = info;
     newManagedObject.complete = NO;
     newManagedObject.timeStamp = [NSDate date];
     
-    [appDelegate saveContext];
+    [self saveContext];
 }
 
 #pragma mark - detailView
@@ -249,8 +248,8 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    AppDelegate *appDelegate = [[AppDelegate alloc] init];
-    [appDelegate saveContext];
+    //AppDelegate *appDelegate = [[AppDelegate alloc] init];
+    [self saveContext];
     [self.tableView endUpdates];
 }
 
@@ -269,9 +268,16 @@
         Task *selectedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
         BOOL number = [selectedObject.complete boolValue];
         selectedObject.complete = [NSNumber numberWithBool:!number];
-        AppDelegate *appDelegate = [[AppDelegate alloc] init];
-        [appDelegate saveContext];
+        //AppDelegate *appDelegate = [[AppDelegate alloc] init];
+        [self saveContext];
     }
+}
+
+- (void)saveContext
+{
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    NSError *error = nil;
+    [context save:&error];
 }
  
 @end

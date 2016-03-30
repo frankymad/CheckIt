@@ -10,6 +10,9 @@
 
 @implementation Task
 
-// Insert code here to add functionality to your managed object subclass
+@dynamic complete;
+@dynamic info;
+@dynamic name;
+@dynamic timeStamp;
 
 @end

@@ -14,7 +14,6 @@
 		24104B201C4D1B53006E4D17 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 24104B1A1C4D1B53006E4D17 /* AppDelegate.m */; };
 		24104B311C4D2086006E4D17 /* CITaskTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 24104B301C4D2086006E4D17 /* CITaskTableViewController.m */; };
 		2432048A1C4E252A005E7CEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 243204891C4E252A005E7CEA /* Main.storyboard */; };
-		2459B2FB1CA93A7B00B4AD5C /* Task+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 2459B2F81CA93A7B00B4AD5C /* Task+CoreDataProperties.m */; };
 		2459B2FC1CA93A7B00B4AD5C /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 2459B2FA1CA93A7B00B4AD5C /* Task.m */; };
 		2459B2FF1CA9F0C600B4AD5C /* checkit.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2459B2FD1CA9F0C600B4AD5C /* checkit.xcdatamodeld */; };
 		2488A05F1C9C01C80096233C /* CITaskDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2488A05E1C9C01C80096233C /* CITaskDetailsViewController.m */; };
@@ -54,8 +53,6 @@
 		24104B2F1C4D2086006E4D17 /* CITaskTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CITaskTableViewController.h; sourceTree = "<group>"; };
 		24104B301C4D2086006E4D17 /* CITaskTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CITaskTableViewController.m; sourceTree = "<group>"; };
 		243204891C4E252A005E7CEA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		2459B2F71CA93A7B00B4AD5C /* Task+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Task+CoreDataProperties.h"; path = "CheckIt/Classes/Models/Task+CoreDataProperties.h"; sourceTree = SOURCE_ROOT; };
-		2459B2F81CA93A7B00B4AD5C /* Task+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Task+CoreDataProperties.m"; path = "CheckIt/Classes/Models/Task+CoreDataProperties.m"; sourceTree = SOURCE_ROOT; };
 		2459B2F91CA93A7B00B4AD5C /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Task.h; path = CheckIt/Classes/Models/Task.h; sourceTree = SOURCE_ROOT; };
 		2459B2FA1CA93A7B00B4AD5C /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Task.m; path = CheckIt/Classes/Models/Task.m; sourceTree = SOURCE_ROOT; };
 		2459B2FE1CA9F0C600B4AD5C /* checkit.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = checkit.xcdatamodel; sourceTree = "<group>"; };
@@ -178,8 +175,6 @@
 		24104B1C1C4D1B53006E4D17 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				2459B2F71CA93A7B00B4AD5C /* Task+CoreDataProperties.h */,
-				2459B2F81CA93A7B00B4AD5C /* Task+CoreDataProperties.m */,
 				2459B2F91CA93A7B00B4AD5C /* Task.h */,
 				2459B2FA1CA93A7B00B4AD5C /* Task.m */,
 				2459B2FD1CA9F0C600B4AD5C /* checkit.xcdatamodeld */,
@@ -390,7 +385,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2488A0651C9C73090096233C /* CICustomCell.m in Sources */,
-				2459B2FB1CA93A7B00B4AD5C /* Task+CoreDataProperties.m in Sources */,
 				24104B311C4D2086006E4D17 /* CITaskTableViewController.m in Sources */,
 				2459B2FC1CA93A7B00B4AD5C /* Task.m in Sources */,
 				24104B201C4D1B53006E4D17 /* AppDelegate.m in Sources */,

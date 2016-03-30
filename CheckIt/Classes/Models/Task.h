@@ -13,10 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Task : NSManagedObject
 
-// Insert code here to declare functionality of your managed object subclass
+@property (nullable, nonatomic, retain) NSNumber *complete;
+@property (nullable, nonatomic, retain) NSString *info;
+@property (nullable, nonatomic, retain) NSString *name;
+@property (nullable, nonatomic, retain) NSDate *timeStamp;
 
 @end
 
 NS_ASSUME_NONNULL_END
 
-#import "Task+CoreDataProperties.h"
