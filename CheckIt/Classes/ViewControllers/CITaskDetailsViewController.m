@@ -6,99 +6,224 @@
 //  Copyright © 2016 Weezlabs. All rights reserved.
 //
 
-#import "CITask.h"
 #import "CITaskTableViewController.h"
 #import "CITaskDetailsViewController.h"
 
 @interface CITaskDetailsViewController ()
 
-@property(nonatomic, assign) BOOL taskEdit;
+@property (nonatomic, assign) BOOL datePickerActive;
 @property (nonatomic, retain) NSString *addTaskName;
 @property (nonatomic, retain) NSString *addTaskInfo;
+@property (nonatomic, retain) NSDate *addTaskDate;
+@property (nonatomic, retain) NSDate *tempDate;
+
 
 @end
 
 @implementation CITaskDetailsViewController
 
-@synthesize addTaskInfo, addTaskName, delegate;
-
-#pragma mark - Формирование и настройка текстовых полей.
+#pragma mark - load data
 
 - (void)viewDidLoad
 {
-    if (self.newTaskBoolean)
+    [super viewDidLoad];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButton:)];
+    self.taskNameTextField.enabled = YES;
+    self.taskInfoTextView.delegate = self;
+    
+    if (self.editingNewTask)
     {
-        [super viewDidLoad];
         self.navigationItem.title = @"New Task";
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:nil action:@selector(saveTask:)];
-        [self.infoLabel setDelegate:self];
-        [self.infoLabel setEditable:YES];
-        self.infoLabel.textColor = [UIColor colorWithRed:0.78 green:0.78 blue:0.80 alpha:1.0];
-        [self.taskLabel setEnabled:YES];
-        [self.taskLabel becomeFirstResponder];
-        self.chekmark.image = [UIImage imageNamed:@"Unchecked"];
+        self.checkMark.image = [UIImage imageNamed:@"Unchecked"];
     }
     else
     {
-        [super viewDidLoad];
         self.navigationItem.title = @"Task";
+        self.taskNameTextField.text = self.detailItem.name;
+        self.taskInfoTextView.text = self.detailItem.info;
+        self.taskInfoPlaceholderField.placeholder = (self.detailItem.info.length == 0) ? @"Task Description" : @"";
+        self.checkMark.image = [self.detailItem.complete boolValue] ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
         
-        self.navigationItem.rightBarButtonItem = (self.taskEdit) ? [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:nil action:@selector(saveTask:)] : [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:nil action:@selector(editTask:)];
-        self.taskLabel.text = self.task.title;
-        self.infoLabel.text = self.task.info;
-        [self.taskLabel setEnabled:NO];
-        [self.infoLabel becomeFirstResponder];
-        self.chekmark.image = (self.task.completed) ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
+        if (self.detailItem.date != NULL)
+        {
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            NSDate *eventDate = self.detailItem.date;
+            [dateFormat setDateFormat:@"dd/MM/yy EE"];
+            NSString *dateString = [dateFormat stringFromDate:eventDate];
+            NSDate *today = [NSDate date];
+            NSTimeInterval secondsBetween = [self.detailItem.date timeIntervalSinceDate:today];
+            float floatOfDays = secondsBetween / 86400;
+            NSString *stringOfDays;
+            floatOfDays = ceilf(floatOfDays);
+
+            if (floatOfDays == 0)
+            {
+                self.taskDateField.text = [NSString stringWithFormat:@"%@ - today",dateString];
+            }
+            else if (floatOfDays > 1)
+            {
+                stringOfDays = @" days left";
+                self.taskDateField.text = [NSString stringWithFormat:@"%@ - %.f%@",dateString, floatOfDays, stringOfDays];
+            }
+            else if (floatOfDays == -1)
+            {
+                self.taskDateField.text = [NSString stringWithFormat:@"%@ - yesterday",dateString];
+            }
+            else if (floatOfDays == 1)
+            {
+                self.taskDateField.text = [NSString stringWithFormat:@"%@ - tomorrow",dateString];
+            }
+            else
+            {
+                floatOfDays = fabsf(floatOfDays);
+                stringOfDays = @" days missed";
+                self.taskDateField.text = [NSString stringWithFormat:@"%@ - %.f%@",dateString, floatOfDays, stringOfDays];
+            }
+        }
     }
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTap:)];
+    [self.checkMark addGestureRecognizer:tap];
+    [self.checkMark setUserInteractionEnabled:YES];
+
+    UIDatePicker *datePicker = [[UIDatePicker alloc]init];
+    datePicker.date = (self.editingNewTask) ? [NSDate date] : ((self.detailItem.date != NULL) ? self.detailItem.date : [NSDate date]);
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    [datePicker addTarget:self action:@selector(dateTextField:) forControlEvents:UIControlEventValueChanged];
+    [self.taskDateField setInputView:datePicker];
 }
 
-- (BOOL) textViewShouldBeginEditing:(UITextView *)textView
+- (void)imageTap:(UITapGestureRecognizer *)sender
 {
-    if(self.infoLabel.tag == 0) {
-        self.infoLabel.text = @"";
-        self.infoLabel.textColor = [UIColor blackColor];
-        self.infoLabel.tag = 1;
+    BOOL number = [self.detailItem.complete boolValue];
+    self.detailItem.complete = [NSNumber numberWithBool:!number];
+    self.checkMark.image = [self.detailItem.complete boolValue] ? [UIImage imageNamed:@"Checked"] : [UIImage imageNamed:@"Unchecked"];
+}
+
+-(void) dateTextField:(id)sender
+{
+    UIDatePicker *picker = (UIDatePicker*)self.taskDateField.inputView;
+    picker.minimumDate = [NSDate date];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    NSDate *eventDate = picker.date;
+    [dateFormat setDateFormat:@"dd/MM/yy EE"];
+
+    (self.editingNewTask) ? (_tempDate = picker.date) : (self.detailItem.date = picker.date);
+    
+    NSString *dateString = [dateFormat stringFromDate:eventDate];
+    NSDate *today = [NSDate date];
+    NSTimeInterval secondsBetween = [picker.date timeIntervalSinceDate:today];
+    float floatOfDays = secondsBetween / 86400;
+    NSString *stringOfDays;
+    floatOfDays = ceilf(floatOfDays);
+    
+    if (floatOfDays == 0)
+    {
+        self.taskDateField.text = [NSString stringWithFormat:@"%@ - today",dateString];
     }
-    return YES;
+    else
+    {
+        stringOfDays = @" days left";
+        self.taskDateField.text = [NSString stringWithFormat:@"%@ - %.f%@",dateString, floatOfDays, stringOfDays];
+    }
+
+}
+
+- (void) textViewDidBeginEditing:(UITextView *) textView
+{
+    self.taskInfoPlaceholderField.placeholder = @"";
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    if([self.infoLabel.text length] == 0)
+    if([self.taskInfoTextView.text length] == 0)
     {
-        self.infoLabel.text = @"Task description";
-        self.infoLabel.textColor = [UIColor colorWithRed:0.78 green:0.78 blue:0.80 alpha:1.0];
-        self.infoLabel.tag = 0;
+        self.taskInfoPlaceholderField.placeholder = @"Task Description";
     }
 }
 
-#pragma mark - Обработка нажатия кнопки "Edit" и редактирование записи.
-
-- (void)editTask:(UIBarButtonItem *)sender
+- (void)defaultTaskDescriptionText
 {
-    self.taskEdit = !self.taskEdit;
-    [self.infoLabel setEditable:self.taskEdit];
-    [self viewDidLoad];
+    self.taskInfoTextView.text = @"Task description";
+    self.taskInfoTextView.textColor = [UIColor colorWithRed:0.78 green:0.78 blue:0.80 alpha:1.0];
 }
 
-#pragma mark - Обработка нажатия кнопки "Save".
-
-- (void)saveTask:(UIBarButtonItem *)sender
+- (IBAction)deleteDateButton:(UIButton *)sender
 {
-    if (self.newTaskBoolean && self.taskLabel.text.length != 0)
+    self.taskDateField.text = @"";
+    self.detailItem.date = NULL;
+}
+
+- (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime
+{
+    NSDate *fromDate;
+    NSDate *toDate;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    [calendar rangeOfUnit:NSCalendarUnitDay startDate:&fromDate interval:NULL forDate:fromDateTime];
+    [calendar rangeOfUnit:NSCalendarUnitDay startDate:&toDate interval:NULL forDate:toDateTime];
+    
+    NSDateComponents *difference = [calendar components:NSCalendarUnitDay fromDate:fromDate toDate:toDate options:0];
+    
+    return [difference day];
+}
+
+
+- (void)backButton:(id)sender
+{
+    if (self.taskNameTextField.text.length == 0 && self.taskInfoTextView.text.length == 0 && self.taskDateField.text.length == 0)
     {
-        addTaskName = self.taskLabel.text;
-        addTaskInfo = ([self.infoLabel.text isEqualToString:@"Task description"]) ? @"" : self.infoLabel.text;
-        [delegate sendNewTask:addTaskName info:addTaskInfo];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+    else if (self.taskNameTextField.text.length == 0)
+    {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Task should have a title." message:@"Do you want to continue editing task?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        [alert addAction:ok];
+        
+        UIAlertAction *cancelar = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action)
+                                   {
+                                       
+                                       [self.navigationController popViewControllerAnimated:YES];
+                                   }];
+        [alert addAction:cancelar];
+        
+        [self presentViewController:alert animated:YES completion:nil];
     }
     else
     {
-        self.task.title = self.taskLabel.text;
-        self.task.info = self.infoLabel.text;
-        self.taskEdit = !self.taskEdit;
-        [self.infoLabel setEditable:self.taskEdit];
-        [self viewDidLoad];
+        if (self.editingNewTask && self.taskNameTextField.text.length != 0)
+            {
+                self.addTaskName = self.taskNameTextField.text;
+                self.addTaskInfo = [self.taskInfoTextView.text isEqualToString:@"Task description"] ? @"" : self.taskInfoTextView.text;
+                self.addTaskDate = _tempDate;
+        
+                [_sendDataProtocolDelegate sendNewTask:self.addTaskName info:self.addTaskInfo date:self.addTaskDate];
+                
+                [self.navigationController popViewControllerAnimated:YES];
+        }
+        else
+        {
+            self.detailItem.name = self.taskNameTextField.text;
+            self.detailItem.info = self.taskInfoTextView.text;
+            
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }
 }
 
