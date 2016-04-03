@@ -15,6 +15,7 @@
 @property (nonatomic, strong, readonly) NSMutableArray* tasks;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+//@property (strong, nonatomic) NSFetchedResultsController *notPlannedTasksFetch;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @end

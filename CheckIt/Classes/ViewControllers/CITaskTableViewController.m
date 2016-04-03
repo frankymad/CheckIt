@@ -188,6 +188,24 @@
     return YES;
 }
 
+/*
+- (NSFetchedResultsController *)notPlannedTasksFetch
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Task" inManagedObjectContext:self.managedObjectContext];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"date == nil"];
+    fetchRequest.entity = entity;
+    fetchRequest.predicate = predicate;
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
+    fetchRequest.sortDescriptors = @[sortDescriptor];
+    
+    _notPlannedTasksFetch = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    _notPlannedTasksFetch.delegate = self;
+    
+    return _notPlannedTasksFetch;
+}
+*/
+
 #pragma mark - Fetched results controller
 
 - (NSFetchedResultsController *)fetchedResultsController
