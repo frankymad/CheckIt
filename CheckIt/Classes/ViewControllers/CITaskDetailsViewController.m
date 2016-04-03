@@ -15,6 +15,7 @@
 @property (nonatomic, retain) NSString *addTaskName;
 @property (nonatomic, retain) NSString *addTaskInfo;
 @property (nonatomic, retain) NSDate *addTaskDate;
+@property (nonatomic, retain) NSDate *tempDate;
 
 
 @end
@@ -106,11 +107,27 @@
     picker.minimumDate = [NSDate date];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     NSDate *eventDate = picker.date;
-    [dateFormat setDateFormat:@"dd/MM/yyyy"];
-    self.detailItem.date = picker.date;
+    [dateFormat setDateFormat:@"dd/MM/yy EE"];
+
+    (self.editingNewTask) ? (_tempDate = picker.date) : (self.detailItem.date = picker.date);
     
     NSString *dateString = [dateFormat stringFromDate:eventDate];
-    self.taskDateField.text = [NSString stringWithFormat:@"%@",dateString];
+    NSDate *today = [NSDate date];
+    NSTimeInterval secondsBetween = [picker.date timeIntervalSinceDate:today];
+    float floatOfDays = secondsBetween / 86400;
+    NSString *stringOfDays;
+    floatOfDays = ceilf(floatOfDays);
+    
+    if (floatOfDays == 0)
+    {
+        self.taskDateField.text = [NSString stringWithFormat:@"%@ - today",dateString];
+    }
+    else
+    {
+        stringOfDays = @" days left";
+        self.taskDateField.text = [NSString stringWithFormat:@"%@ - %.f%@",dateString, floatOfDays, stringOfDays];
+    }
+
 }
 
 - (void) textViewDidBeginEditing:(UITextView *) textView
@@ -139,15 +156,6 @@
 {
     self.taskInfoTextView.text = @"Task description";
     self.taskInfoTextView.textColor = [UIColor colorWithRed:0.78 green:0.78 blue:0.80 alpha:1.0];
-}
-
-
-- (NSDate* )stringToDate
-{
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"dd/MM/yy"];
-    NSDate *date = [dateFormat dateFromString:self.taskDateField.text];
-    return date;
 }
 
 - (IBAction)deleteDateButton:(UIButton *)sender
@@ -203,7 +211,7 @@
             {
                 self.addTaskName = self.taskNameTextField.text;
                 self.addTaskInfo = [self.taskInfoTextView.text isEqualToString:@"Task description"] ? @"" : self.taskInfoTextView.text;
-                self.addTaskDate = self.stringToDate;
+                self.addTaskDate = _tempDate;
         
                 [_sendDataProtocolDelegate sendNewTask:self.addTaskName info:self.addTaskInfo date:self.addTaskDate];
                 
