@@ -13,5 +13,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *taskNameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *taskInfoLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *checkMark;
+@property (weak, nonatomic) IBOutlet UITextField *taskDateField;
+@property (weak, nonatomic) IBOutlet UITextField *taskDayField;
 
 @end

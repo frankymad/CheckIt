@@ -29,7 +29,6 @@
     
     self.navigationItem.title = @"Check it";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(enterNewTask:)];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     self.longTapRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressEditing:)];
     self.longTapRecognizer.minimumPressDuration = .5;
@@ -38,6 +37,8 @@
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     self.managedObjectContext = [appDelegate managedObjectContext];
+    
+    
 }
 
 #pragma mark - update view table
@@ -82,14 +83,14 @@
 
 #pragma mark - get data from detailView and add new task
 
-- (void)sendNewTask:(NSString *)name info:(NSString *)info
+- (void)sendNewTask:(NSString *)name info:(NSString *)info date:(NSDate *)date
 {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     Task *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"Task" inManagedObjectContext:context];
-    //AppDelegate *appDelegate = [[AppDelegate alloc] init];
     
     newManagedObject.name = name;
     newManagedObject.info = info;
+    newManagedObject.date = date;
     newManagedObject.complete = NO;
     newManagedObject.timeStamp = [NSDate date];
     
@@ -104,7 +105,7 @@
     {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         CITaskDetailsViewController *viewController = (CITaskDetailsViewController *)segue.destinationViewController;
-        NSManagedObject *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        Task *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         viewController.detailItem = selectedObject;
     }
 }
@@ -123,9 +124,30 @@
 {
     Task *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    NSDateFormatter *dayFormat = [[NSDateFormatter alloc] init];
+    NSDate *eventDate = object.date;
+    [dateFormat setDateFormat:@"dd/MM"];
+    [dayFormat setDateFormat:@"EE"];
+    NSString *dateString = [dateFormat stringFromDate:eventDate];
+    NSString *dayString = [dayFormat stringFromDate:eventDate];
+    
     cell.taskNameLabel.text = object.name;
     cell.taskInfoLabel.text = object.info;
-
+    cell.taskDateField.text = dateString;
+    cell.taskDayField.text = dayString;
+    
+    NSComparisonResult result = [object.date compare:[NSDate date]];
+    
+    if (result < 1 && object.date != NULL)
+    {
+        cell.backgroundColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0];
+    }
+    else
+    {
+        cell.backgroundColor = [UIColor whiteColor];
+    }
+    
     if (self.tableView.editing) {
         UIImage *image = [UIImage imageNamed:@"Delete"];
         [cell.checkMark setImage:image];
@@ -181,7 +203,7 @@
 
     [fetchRequest setFetchBatchSize:20];
 
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
     
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
 
@@ -248,7 +270,6 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    //AppDelegate *appDelegate = [[AppDelegate alloc] init];
     [self saveContext];
     [self.tableView endUpdates];
 }
@@ -268,7 +289,6 @@
         Task *selectedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
         BOOL number = [selectedObject.complete boolValue];
         selectedObject.complete = [NSNumber numberWithBool:!number];
-        //AppDelegate *appDelegate = [[AppDelegate alloc] init];
         [self saveContext];
     }
 }

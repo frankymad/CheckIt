@@ -19,21 +19,24 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CICustomCell" id="5aG-Ie-QMd" customClass="CICustomCell">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CICustomCell" id="5aG-Ie-QMd" customClass="CICustomCell">
                                 <rect key="frame" x="0.0" y="92" width="320" height="63"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" semanticContentAttribute="spatial" tableViewCell="5aG-Ie-QMd" id="cqA-2J-ZQx">
-                                    <rect key="frame" x="0.0" y="0.0" width="287" height="62"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="62"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z3j-8D-kiW">
-                                            <rect key="frame" x="74" y="4" width="203" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Onn-dC-OZU">
+                                            <rect key="frame" x="266" y="29" width="46" height="30"/>
+                                            <accessibility key="accessibilityConfiguration">
+                                                <bool key="isElement" value="NO"/>
+                                            </accessibility>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcA-pG-TzO">
-                                            <rect key="frame" x="74" y="27" width="203" height="21"/>
+                                            <rect key="frame" x="66" y="33" width="203" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -46,6 +49,21 @@
                                             </constraints>
                                             <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                         </imageView>
+                                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ERC-Sj-sb0">
+                                            <rect key="frame" x="266" y="4" width="46" height="30"/>
+                                            <accessibility key="accessibilityConfiguration">
+                                                <bool key="isElement" value="NO"/>
+                                            </accessibility>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z3j-8D-kiW">
+                                            <rect key="frame" x="66" y="8" width="203" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="LtC-Ja-HB5" firstAttribute="leading" secondItem="cqA-2J-ZQx" secondAttribute="leading" constant="8" id="TEp-R0-OQZ"/>
@@ -55,6 +73,8 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outlet property="checkMark" destination="LtC-Ja-HB5" id="6Pn-Fd-Q0S"/>
+                                    <outlet property="taskDateField" destination="ERC-Sj-sb0" id="TDa-uu-x2o"/>
+                                    <outlet property="taskDayField" destination="Onn-dC-OZU" id="g4b-cG-eKY"/>
                                     <outlet property="taskInfoLabel" destination="QcA-pG-TzO" id="xSU-mL-all"/>
                                     <outlet property="taskNameLabel" destination="z3j-8D-kiW" id="Lnj-P9-DtH"/>
                                     <segue destination="nLi-1K-uWf" kind="push" identifier="detailSegue" id="8gz-iN-Jrg"/>
@@ -82,45 +102,90 @@
             <objects>
                 <viewController storyboardIdentifier="CITaskDetailsViewController" id="nLi-1K-uWf" customClass="CITaskDetailsViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="OEH-9B-Ben"/>
-                        <viewControllerLayoutGuide type="bottom" id="N3w-gc-kVW"/>
+                        <viewControllerLayoutGuide type="top" id="em1-EB-R0e"/>
+                        <viewControllerLayoutGuide type="bottom" id="egP-MQ-oRV"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Pw4-t2-cXL">
+                    <view key="view" contentMode="scaleToFill" id="zcz-xu-del">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="Task name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="loC-KA-U0T">
-                                <rect key="frame" x="62" y="85" width="238" height="21"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" selected="YES" staticText="YES"/>
-                                    <bool key="isElement" value="YES"/>
-                                </accessibility>
-                                <attributedString key="attributedText"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="IHH-pa-BnU">
+                                <rect key="frame" x="20" y="72" width="280" height="50"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6vo-xp-eW2">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="KNG-ta-0Ze"/>
+                                            <constraint firstAttribute="width" constant="50" id="Kzu-Be-Odz"/>
+                                        </constraints>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Task Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RBY-S2-Ylj">
+                                        <rect key="frame" x="60" y="0.0" width="220" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="6vo-xp-eW2" firstAttribute="top" secondItem="IHH-pa-BnU" secondAttribute="top" id="2by-rt-cCM"/>
+                                    <constraint firstItem="6vo-xp-eW2" firstAttribute="leading" secondItem="IHH-pa-BnU" secondAttribute="leading" id="BcZ-db-GQO"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sSu-C6-OFf">
+                                <rect key="frame" x="20" y="130" width="280" height="30"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Not Planned" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gSA-Eg-KvO">
+                                        <rect key="frame" x="0.0" y="0.0" width="250" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gNv-ay-dKE">
+                                        <rect key="frame" x="250" y="0.0" width="30" height="30"/>
+                                        <state key="normal" title="X"/>
+                                        <connections>
+                                            <action selector="deleteDateButton:" destination="nLi-1K-uWf" eventType="touchUpInside" id="sv3-yg-XOi"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cBQ-Ya-R1i">
+                                <rect key="frame" x="20" y="165" width="280" height="351"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
+                            </textView>
+                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="Task Decription" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7C6-0t-zpe">
+                                <rect key="frame" x="20" y="168" width="280" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yo0-TJ-lca">
-                                <rect key="frame" x="4" y="70" width="50" height="50"/>
-                            </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Task description" translatesAutoresizingMaskIntoConstraints="NO" id="yE2-4J-tno">
-                                <rect key="frame" x="20" y="128" width="280" height="331"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="sSu-C6-OFf" firstAttribute="leading" secondItem="zcz-xu-del" secondAttribute="leading" constant="20" id="7af-ww-s2D"/>
+                            <constraint firstItem="cBQ-Ya-R1i" firstAttribute="leading" secondItem="zcz-xu-del" secondAttribute="leading" constant="20" id="FDI-kz-5vO"/>
+                            <constraint firstAttribute="trailing" secondItem="cBQ-Ya-R1i" secondAttribute="trailing" constant="20" id="JsU-nH-gWN"/>
+                            <constraint firstAttribute="trailing" secondItem="IHH-pa-BnU" secondAttribute="trailing" constant="20" id="LyB-kr-C1C"/>
+                            <constraint firstItem="egP-MQ-oRV" firstAttribute="top" secondItem="cBQ-Ya-R1i" secondAttribute="bottom" constant="8" id="Qs1-SW-puI"/>
+                            <constraint firstItem="IHH-pa-BnU" firstAttribute="top" secondItem="em1-EB-R0e" secondAttribute="bottom" constant="8" id="WZk-9K-iVP"/>
+                            <constraint firstItem="sSu-C6-OFf" firstAttribute="top" secondItem="IHH-pa-BnU" secondAttribute="bottom" constant="8" id="bw2-I2-KRU"/>
+                            <constraint firstItem="cBQ-Ya-R1i" firstAttribute="top" secondItem="IHH-pa-BnU" secondAttribute="bottom" constant="43" id="h7i-wI-zYt"/>
+                            <constraint firstAttribute="trailing" secondItem="sSu-C6-OFf" secondAttribute="trailing" constant="20" id="n7R-hb-Iur"/>
+                            <constraint firstItem="IHH-pa-BnU" firstAttribute="leading" secondItem="zcz-xu-del" secondAttribute="leading" constant="20" id="ncS-oe-Vwg"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="oep-Sn-dVr"/>
                     <connections>
-                        <outlet property="chekmark" destination="yo0-TJ-lca" id="P4R-et-hFq"/>
-                        <outlet property="taskInfoTextView" destination="yE2-4J-tno" id="UDh-Ij-qxr"/>
-                        <outlet property="taskNameTextField" destination="loC-KA-U0T" id="FfP-w9-2Wg"/>
+                        <outlet property="checkMark" destination="6vo-xp-eW2" id="6iP-jX-g2P"/>
+                        <outlet property="deleteDate" destination="gNv-ay-dKE" id="xwD-Px-ofs"/>
+                        <outlet property="taskDateField" destination="gSA-Eg-KvO" id="QmW-OT-ejW"/>
+                        <outlet property="taskInfoPlaceholderField" destination="7C6-0t-zpe" id="9RY-zu-Jad"/>
+                        <outlet property="taskInfoTextView" destination="cBQ-Ya-R1i" id="Bq2-ET-P3b"/>
+                        <outlet property="taskNameTextField" destination="RBY-S2-Ylj" id="e2t-80-4ur"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YmC-C9-fO9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-64" y="90"/>
+            <point key="canvasLocation" x="-99" y="90"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qVh-3c-U8K">

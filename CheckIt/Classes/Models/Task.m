@@ -14,5 +14,6 @@
 @dynamic info;
 @dynamic name;
 @dynamic timeStamp;
+@dynamic date;
 
 @end
