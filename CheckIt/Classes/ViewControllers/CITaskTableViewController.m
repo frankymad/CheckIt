@@ -91,7 +91,7 @@
     newManagedObject.name = name;
     newManagedObject.info = info;
     newManagedObject.date = date;
-    newManagedObject.complete = NO;
+    newManagedObject.complete = [NSNumber numberWithBool:NO];
     newManagedObject.timeStamp = [NSDate date];
     
     [self saveContext];

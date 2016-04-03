@@ -91,11 +91,6 @@
     datePicker.datePickerMode = UIDatePickerModeDate;
     [datePicker addTarget:self action:@selector(dateTextField:) forControlEvents:UIControlEventValueChanged];
     [self.taskDateField setInputView:datePicker];
-    
-    CGRect frame;
-    frame = self.taskInfoTextView.frame;
-    frame.size.height = [self.taskInfoTextView contentSize].height;
-    self.taskInfoTextView.frame = frame;
 }
 
 - (void)imageTap:(UITapGestureRecognizer *)sender
@@ -125,11 +120,7 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    CGFloat fixedWidth = textView.frame.size.width;
-    CGSize newSize = [textView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
-    CGRect newFrame = textView.frame;
-    newFrame.size = CGSizeMake(fmaxf(newSize.width, fixedWidth), newSize.height);
-    textView.frame = newFrame;
+
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
